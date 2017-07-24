@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -43,4 +44,45 @@ var app = {
     }
 };
 
+
+
+
+
+
+
+
+
 app.initialize();
+
+$(document).ready(function () {
+    
+    
+console.log("test");
+    
+var button = $(ons._util.createElement("<ons-button> button name </ons-button>"));
+
+button.on("click", function() {
+ alert("test button dynamically")
+    });
+
+    $("#button").append(button);
+
+
+// shortcut:
+    // Set function as handler: $("#something").click(myFunction);
+    // Set function as handler: $("#something").on("click", myFunction);
+    // Call function/move logic into the handler $("#something").on("click", function() { myFunction(); });
+    
+// to make something a jquery object, add $ infront - wraps everything in $() brackets to a jquery object and calls jquery. 
+
+
+
+});
+
+
+
+
+
+
+
+
