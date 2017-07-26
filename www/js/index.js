@@ -44,36 +44,89 @@ var app = {
     }
 };
 
-
-
-
-
-
-
-
-
 app.initialize();
 
+
+/*---------
+FUNCTIONS
+---------*/
+
+//Menu page//
+function showMenu() {
+    
+    console.log("begin showMenu()");
+    
+    var page = $("<div></div>");
+    var btnQuiz = $(ons._util.createElement("<ons-button>go to quiz</ons-button>"));
+     btnQuiz.on("click", function(){
+         showQuizMood();
+     });
+
+    page.html(btnQuiz)
+
+    
+    $("#maincontent").html(page);
+
+    
+    
+}
+
+/* maincontent div is your page basically. 
+*/
+
+//Quiz page (Mood)//
+function showQuizMood() {
+    console.log("begin showQuizMood()");
+    var page = $("<div></div>"); //clear the page so new content can be added
+    var btnMenu = $(ons._util.createElement("<ons-button modifier='quiet'>go to menu</ons-button>"));
+        btnMenu.on("click", function(){
+         showMenu();
+     });
+    
+    page.html("<h1>quiz page</h1>")
+    page.append(btnMenu)
+
+    $("#maincontent").html(page);
+    
+}
+
+//Quiz page (Exam)//
+
+
+//Answered page//
+
+
+//Summary/statistics page//
+
+
+
+
+/*-----------------------
+DOCUMENT.READY FUNCTION
+------------------------*/
+
 $(document).ready(function () {
+    showMenu();
+        
     
-    
-console.log("test");
-    
-var button = $(ons._util.createElement("<ons-button> button name </ons-button>"));
+                        /*console.log("test");
 
-button.on("click", function() {
- alert("test button dynamically")
-    });
+                        var button = $(ons._util.createElement("<ons-button> button name </ons-button>"));
 
-    $("#button").append(button);
+                        button.on("click", function() {
+                         alert("test button dynamically")
+                            });
 
 
-// shortcut:
-    // Set function as handler: $("#something").click(myFunction);
-    // Set function as handler: $("#something").on("click", myFunction);
-    // Call function/move logic into the handler $("#something").on("click", function() { myFunction(); });
-    
-// to make something a jquery object, add $ infront - wraps everything in $() brackets to a jquery object and calls jquery. 
+                            $("#button").append(button);*/
+
+
+                        // shortcut:
+                            // Set function as handler: $("#something").click(myFunction);
+                            // Set function as handler: $("#something").on("click", myFunction);
+                            // Call function/move logic into the handler $("#something").on("click", function() { myFunction(); });
+
+                        // to make something a jquery object, add $ infront - wraps everything in $() brackets to a jquery object and calls jquery. 
 
 
 
