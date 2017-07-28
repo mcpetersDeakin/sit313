@@ -50,25 +50,47 @@ app.initialize();
 /*---------
 FUNCTIONS
 ---------*/
+//Login page //
+function showLogin() {
+    console.log("begin showLogin()");
+    //variables
+    var page = $("<div></div>");
+    var usernameLabel = $("<p>Username: </p>");
+    var username = $("<input type='text'></input>");
+    var pwLabel = $("<p>Password: </p>");
+    var pw = $("<input type='text'></input>");
+    var btnLogin = $(ons._util.createElement("<ons-button>Login</ons-button>"));
+    btnLogin.on("click", function(){
+         showMenu();
+    });
+    
+    
+    //append
+    page.html("<div class='logo'></div")
+    usernameLabel.append(username);
+    page.append(usernameLabel);
+    pwLabel.append(pw);
+    page.append(pwLabel);
+    page.append(btnLogin)
+
+    
+    //main
+    $("#maincontent").html(page);
+
+}
+
 
 //Menu page//
 function showMenu() {
     
     console.log("begin showMenu()");
-    
     var page = $("<div></div>");
     var btnQuiz = $(ons._util.createElement("<ons-button>go to quiz</ons-button>"));
      btnQuiz.on("click", function(){
          showQuizMood();
-     });
-
+    });
     page.html(btnQuiz)
-
-    
     $("#maincontent").html(page);
-
-    
-    
 }
 
 /* maincontent div is your page basically. 
@@ -82,12 +104,9 @@ function showQuizMood() {
         btnMenu.on("click", function(){
          showMenu();
      });
-    
     page.html("<h1>quiz page</h1>")
     page.append(btnMenu)
-
-    $("#maincontent").html(page);
-    
+    $("#maincontent").html(page);   
 }
 
 //Quiz page (Exam)//
@@ -106,7 +125,7 @@ DOCUMENT.READY FUNCTION
 ------------------------*/
 
 $(document).ready(function () {
-    showMenu();
+    showLogin();
         
     
                         /*console.log("test");
