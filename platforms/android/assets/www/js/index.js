@@ -19,7 +19,7 @@
 
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     },
 
@@ -27,7 +27,7 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         this.receivedEvent('deviceready');
     },
 
@@ -55,30 +55,37 @@ function showLogin() {
     console.log("begin showLogin()");
     //variables
     var page = $("<div></div>");
-    var usernameLabel = $("<p>Username: </p>");
-    var username = $("<input type='text'></input>");
-    var pwLabel = $("<p>Password: </p>");
-    var pw = $("<input type='text'></input>");
-    var btnLogin = $(ons._util.createElement("<ons-button>Login</ons-button>"));
+
+    var username = $(ons._util.createElement("<ons-input id='username' modifier='underbar' placeholder='Username' float></ons-input>"));
+    
+    var pw = $(ons._util.createElement("<ons-input class='inputzcs' id='pw' modifier='underbar' placeholder='Password' float></ons-input>"));
+
+    var btnLogin = $(ons._util.createElement("<ons-button class='buttoncs' modifier='quiet'>Login</ons-button>"));
     btnLogin.on("click", function(){
          showMenu();
+    });
+        var btnSignup = $(ons._util.createElement("<ons-button class='buttoncs' >Sign Up</ons-button>"));
+    btnSignup.on("click", function(){
+         showSignUp();
     });
     
     
     //append
-    page.html("<div class='logo'></div")
-    usernameLabel.append(username);
-    page.append(usernameLabel);
-    pwLabel.append(pw);
-    page.append(pwLabel);
-    page.append(btnLogin)
-
+    page.html("<div class='logo'></div");
+    page.append(username);
+    page.append(pw);
+    page.append(btnLogin);
+    page.append(btnSignup);
     
     //main
     $("#maincontent").html(page);
 
 }
 
+//SignUp page//
+function showSignUp() {
+    
+}
 
 //Menu page//
 function showMenu() {
@@ -86,7 +93,7 @@ function showMenu() {
     console.log("begin showMenu()");
     var page = $("<div></div>");
     var btnQuiz = $(ons._util.createElement("<ons-button>go to quiz</ons-button>"));
-     btnQuiz.on("click", function(){
+    btnQuiz.on("click", function(){
          showQuizMood();
     });
     page.html(btnQuiz)
@@ -101,7 +108,7 @@ function showQuizMood() {
     console.log("begin showQuizMood()");
     var page = $("<div></div>"); //clear the page so new content can be added
     var btnMenu = $(ons._util.createElement("<ons-button modifier='quiet'>go to menu</ons-button>"));
-        btnMenu.on("click", function(){
+    btnMenu.on("click", function(){
          showMenu();
      });
     page.html("<h1>quiz page</h1>")
@@ -127,26 +134,6 @@ DOCUMENT.READY FUNCTION
 $(document).ready(function () {
     showLogin();
         
-    
-                        /*console.log("test");
-
-                        var button = $(ons._util.createElement("<ons-button> button name </ons-button>"));
-
-                        button.on("click", function() {
-                         alert("test button dynamically")
-                            });
-
-
-                            $("#button").append(button);*/
-
-
-                        // shortcut:
-                            // Set function as handler: $("#something").click(myFunction);
-                            // Set function as handler: $("#something").on("click", myFunction);
-                            // Call function/move logic into the handler $("#something").on("click", function() { myFunction(); });
-
-                        // to make something a jquery object, add $ infront - wraps everything in $() brackets to a jquery object and calls jquery. 
-
 
 
 });

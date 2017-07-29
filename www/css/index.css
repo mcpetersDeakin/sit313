@@ -24,17 +24,6 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -114,7 +103,26 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-.logo {
-    border: 5px;
-    background-image: url("logotemp.png");
+
+.background {
+    background-image: url('peak.jpg');
+    height: 100vh;
+    width: 100vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.buttoncs {
+    border-radius: 20px;
+
+    background-color: red;
+}
+
+.inputtest {
+    background-color: red;
+    color: aqua;
 }
