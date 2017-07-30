@@ -47,6 +47,8 @@ var app = {
 app.initialize();
 
 
+
+
 /*---------
 FUNCTIONS
 ---------*/
@@ -54,8 +56,11 @@ FUNCTIONS
 function showLogin() {
     console.log("begin showLogin()");
     //variables
+    
     var page = $("<div></div>");
 
+    var logo = $("<div class='logo'></div>")
+    
     var username = $(ons._util.createElement("<ons-input id='username' modifier='underbar' placeholder='Username' float></ons-input>"));
     
     var pw = $(ons._util.createElement("<ons-input class='inputtest' id='pw' modifier='underbar' placeholder='Password' float></ons-input>"));
@@ -64,10 +69,6 @@ function showLogin() {
     btnLogin.on("click", function(){
          showMenu();
     });
-        var btnSignup = $(ons._util.createElement("<ons-button class='buttoncs' >Sign Up</ons-button>"));
-    btnSignup.on("click", function(){
-         showSignUp();
-    });
     
     
     //append
@@ -75,17 +76,12 @@ function showLogin() {
     page.append(username);
     page.append(pw);
     page.append(btnLogin);
-    page.append(btnSignup);
     
     //main
     $("#maincontent").html(page);
 
 }
 
-//SignUp page//
-function showSignUp() {
-    
-}
 
 //Menu page//
 function showMenu() {
@@ -97,11 +93,9 @@ function showMenu() {
          showQuizMood();
     });
     page.html(btnQuiz)
-    $("#maincontent").html(page);
+    
+    $(".jeff").html(page);
 }
-
-/* maincontent div is your page basically. 
-*/
 
 //Quiz page (Mood)//
 function showQuizMood() {
@@ -118,8 +112,10 @@ function showQuizMood() {
 
 //Quiz page (Exam)//
 
-
-//Answered page//
+/*var div = document.createElement('div');
+div.innerHTML = '<ons-button></ons-button>'
+document.body.appendChild(div);
+//Answered page//*/
 
 
 //Summary/statistics page//
@@ -133,8 +129,21 @@ DOCUMENT.READY FUNCTION
 
 $(document).ready(function () {
     showLogin();
-        
+  
+    window.fn = {};
 
+window.fn.open = function() {
+  var menu = document.getElementById('menu');
+  menu.open();
+};
+
+window.fn.load = function(page) {
+  var content = document.getElementById('content');
+  var menu = document.getElementById('menu');
+  content.load(page)
+    .then(menu.close.bind(menu));
+};    
+  showMenu();
 
 });
 
