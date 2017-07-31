@@ -174,8 +174,49 @@ padding-left: 10px;
     padding-bottom: 40px;
 }
 
+.ons-icon {
+    font-size: 25px;
+    color: white;
+}
+
+.menu {
+    color: white;
+    font-size: 25px;
+}
+
+.toolbar {
+    background-color: #1A1A1A;
+
+}
+
+.list-item__title {
+font-size: 25px;
+    color: #66CCCC;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.list-item__subtitle {
+    text-transform: none;
+    font-size: 20px;
+    color: #1A1A1A;
+}
 
 
+.list-item__center {
+padding: 50px 20px 50px 20px;
+
+    
+}
+
+.myicon {
+  background-image: url('../img/iconlogo.png');
+background-size: contain;
+width: 35px;
+  height: 70%;
+  background-repeat: no-repeat;
+  margin-top: 8px;   
+}
 
 /*colour references:
 black: #1A1A1A
