@@ -46,46 +46,65 @@ var app = {
 
 app.initialize();
 
+//how to create jquery properly: https://stackoverflow.com/questions/10619445/the-preferred-way-of-creating-a-new-element-with-jquery
+
+//** can use the page var you created instead of $("#box"):
+
+
+//$("#box").append("<div></div>");
+
+//var div = $("<div></div>");
+//$("#box").append(div);
+
+//using variables can:
+//$div.click(function(){ /* ... */ });
+//$("#box").append($div);
 
 /*---------
 FUNCTIONS
 ---------*/
 //Login page //
+
 function showLogin() {
     console.log("begin showLogin()");
-    //variables
-    var page = $("<div></div>");
-
-    var username = $(ons._util.createElement("<ons-input id='username' modifier='underbar' placeholder='Username' float></ons-input>"));
     
-    var pw = $(ons._util.createElement("<ons-input class='inputzcs' id='pw' modifier='underbar' placeholder='Password' float></ons-input>"));
+   var $page = $("<div></div>"); 
 
-    var btnLogin = $(ons._util.createElement("<ons-button class='buttoncs' modifier='quiet'>Login</ons-button>"));
-    btnLogin.on("click", function(){
+    var $conFields = $("<div class='conFields'></div>");
+    var $username = $("<ons-input id='username' modifier='underbar' placeholder='Username'  float></ons-input>");
+    var $pw = $("<ons-input id='pw' modifier='underbar' type='password' placeholder='Password' float></ons-input>");
+    var $btnLogin = $("<ons-button class='buttoncs'>Login</ons-button>");
+    
+/*    btnLogin.on("click", function(){
          showMenu();
-    });
-        var btnSignup = $(ons._util.createElement("<ons-button class='buttoncs' >Sign Up</ons-button>"));
-    btnSignup.on("click", function(){
-         showSignUp();
+    }); */
+    
+    //functions
+    $btnLogin.click(function(){
+        showMenu();
     });
     
-    
-    //append
-    page.html("<div class='logo'></div");
-    page.append(username);
-    page.append(pw);
-    page.append(btnLogin);
-    page.append(btnSignup);
+    //append elements
+    $("<div class='logo'></div>").appendTo($page);
+    $("<div class='title'>QUIZI</div>").appendTo($page);
+    $("<div class='linebreak'></div>").appendTo($page);
+
+    $conFields.appendTo($page);
+    $username.appendTo($conFields);
+    $("<br/>").appendTo($conFields);
+        $("<br/>").appendTo($conFields);
+
+    $pw.appendTo($conFields);
+    $("<div class='break'></div>").appendTo($conFields);
+    $btnLogin.appendTo($conFields);
+    $("<div class='footer'></div>").appendTo($page);
+
     
     //main
-    $("#maincontent").html(page);
+    $("#maincontent").html($page);
 
 }
 
-//SignUp page//
-function showSignUp() {
-    
-}
 
 //Menu page//
 function showMenu() {
@@ -99,9 +118,6 @@ function showMenu() {
     page.html(btnQuiz)
     $("#maincontent").html(page);
 }
-
-/* maincontent div is your page basically. 
-*/
 
 //Quiz page (Mood)//
 function showQuizMood() {
@@ -118,7 +134,9 @@ function showQuizMood() {
 
 //Quiz page (Exam)//
 
-
+//var div = document.createElement('div');
+//div.innerHTML = '<ons-button></ons-button>'
+//document.body.appendChild(div);
 //Answered page//
 
 

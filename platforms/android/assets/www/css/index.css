@@ -24,17 +24,6 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -46,16 +35,16 @@ body {
 }
 
 /* Portrait layout (default) */
-.app {
+/*.app {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
-    position:absolute;             /* position in the center of the screen */
-    left:50%;
-    top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
-    text-align:center;
-    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+ /*  position:absolute;             /* position in the center of the screen */
+/*    left:50%;
+/*    top:50%;
+  /*  height:50px;                   /* text area height */
+/*    width:225px;                   /* text area width */
+  /*  text-align:center;
+/*    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+  /*  margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
                                    /* offset horizontal: half of text area width */
 }
 
@@ -76,6 +65,13 @@ h1 {
     overflow:visible;
     padding:0px;
     text-align:center;
+}
+
+ons-input input {
+    width: 50vw !important;
+    font-size: 20px !important;
+    color: #66CCCC !important;
+
 }
 
 .event {
@@ -115,26 +111,73 @@ h1 {
 }
 
 
-.background {
-    background-image: url('peak.jpg');
-    height: 100vh;
+.logo {
+    background-image: url('../img/logo.png');
+    height: 30vh;
     width: 100vw;
     background-repeat: no-repeat;
-    background-position: center;
-    z-index: -1;
+    background-position: center; /* keeps image in center of screen*/
     position: absolute;
     top: 0;
     left: 0;
+    
 }
 
 .buttoncs {
-    border-radius: 20px;
-    width: 30px;
-    height: 30px;
-    background-color: red;
+    border-radius: 25px;
+    padding: 10px 40px; 
+    font-size: 20px;
+    font-weight: bold;
+    color:white; /*text colour */
+    background-color: #66CCCC; /*bg colour */
+
 }
 
-.inputzcs {
-    background-color: red;
-    color: aqua;
+.padding {
+padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    position: relative;
 }
+
+.conFields {
+
+    width: 100vw;
+    text-align: center;
+    position: absolute;
+    top: 45%;
+    left: 0;
+    
+
+}
+
+.footer {
+    background-color: #1A1A1A;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 13vh;
+}
+
+.title {
+    color: #1A1A1A;
+    font-size: 80px;
+    width: 100vw;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 22%; 
+
+}
+
+.break {
+    padding-bottom: 40px;
+}
+
+
+
+
+/*colour references:
+black: #1A1A1A
+blue: #66CCCC*
+grey: #E4E4E4 /
