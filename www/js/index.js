@@ -68,37 +68,30 @@ FUNCTIONS
 function showLogin() {
     console.log("begin showLogin()");
     
-    //variables
+    //variables declared and appendto elements
     var $page = $("<ons-page></ons-page>"); 
-
-    var $conFields = $("<div class='conFields'></div>");
-    var $username = $("<ons-input id='username' modifier='underbar' placeholder='Username'  float></ons-input>");
-    var $pw = $("<ons-input id='pw' modifier='underbar' type='password' placeholder='Password' float></ons-input>");
-    var $btnLogin = $("<ons-button class='buttoncs'>Login</ons-button>");
+    $("<div class='logo'></div>").appendTo($page);
+    $("<div class='title'>QUIZI</div>").appendTo($page);    
+    var $conFields = $("<div class='conFields'></div>").appendTo($page);
+    var $username = $("<ons-input id='username' modifier='underbar' placeholder='Username'  float></ons-input>").appendTo($conFields);
+    $("<br/>").appendTo($conFields);
+    $("<br/>").appendTo($conFields);
+    var $pw = $("<ons-input id='pw' modifier='underbar' type='password' placeholder='Password' float></ons-input>").appendTo($conFields);    
+    $("<div class='break'></div>").appendTo($conFields);
+    $("<div class='footer'></div>").appendTo($page);    
     
-    
-    //functions
-    $btnLogin.click(function(){
+    //button
+    var $btnLogin = $("<ons-button class='buttoncs'>Login</ons-button>").appendTo($conFields).on("click", function(){
         showMenu();
     });
-    
-    //append elements
-    $("<div class='logo'></div>").appendTo($page);
-    $("<div class='title'>QUIZI</div>").appendTo($page);
-    $conFields.appendTo($page);
-    $username.appendTo($conFields);
-    $("<br/>").appendTo($conFields);
-    $("<br/>").appendTo($conFields);
-    $pw.appendTo($conFields);
-    $("<div class='break'></div>").appendTo($conFields);
-    $btnLogin.appendTo($conFields);
-    $("<div class='footer'></div>").appendTo($page);
 
     
     //main
     $("#maincontent").html($page);
-
 }
+
+
+
 
 
 //Menu page//
@@ -108,54 +101,32 @@ function showMenu() {
     //variables
     var $page = $("<ons-page></ons-page>"); 
     
-    var $toolbar = $("<ons-toolbar></ons-toolbar>");
-    var $tbcenter = $("<div class='center'></div>"); 
-    var $tbleft = $("<div class='left'></div>"); 
-    var $tbright = $("<div class='right'></div>"); 
-    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>"); 
- //   var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>"); 
-//    var $tblogout = $("<ons-icon icon='fa-user-circle-o'></ons-icon>")
-    var $tbhome = $("<ons-icon icon='fa-user-circle-o'></ons-icon>")
-    var $onsList = $("<ons-list></ons-list>");
-    var $onsListMood = $("<ons-list-item tappable></ons-list-item>")
-    var $onsListExam = $("<ons-list-item tappable></ons-list-item>")
-
-    //functions
-
-    $onsListMood.on("click", function() {
-       showQuizMood(); 
-    });
-    
-    $tbbutton.on("click", function() {
-       showLogin();
-        
-    });
-    
-  //  $tbbutton2.on("click", function() {
-//       showLogin();
-        
-//    });
-    
-    //append
-    
-    $toolbar.appendTo($page);
-    $tbcenter.appendTo($toolbar);
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
     $("<span class='menu'>Menu</span>").appendTo($tbcenter);
-    $tbright.appendTo($toolbar);
-    $tbleft.appendTo($toolbar);
-    $tbbutton.appendTo($tbleft);
-    $("<div class='myicon'></div>").appendTo($tbright);
- //   $tbbutton2.appendTo($tbright);
- //   $tblogout.appendTo($tbbutton2);
-    $tbhome.appendTo($tbbutton);
-    $onsList.appendTo($page);
-    $onsListMood.appendTo($onsList);
-    $onsListExam.appendTo($onsList);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar); 
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
+    //logout button
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+            showLogin();      
+        });; 
+    
+    $("<ons-icon class='myicon'></ons-icon>").appendTo($tbright);
+    var $tbhome = $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+    var $onsList = $("<ons-list></ons-list>").appendTo($page);
+    //quiz buttons
+    var $onsListMood = $("<ons-list-item tappable></ons-list-item>").appendTo($onsList).on("click",       function() {
+            showQuizMood(); 
+        });    
+    
+    var $onsListExam = $("<ons-list-item tappable></ons-list-item>").appendTo($onsList);
     $("<span class='list-item__title'>Mood Quiz</span>").appendTo($onsListMood);
     $("<span class='list-item__subtitle'>How are you feeling today?</span>").appendTo($onsListMood);
     $("<span class='list-item__title'>Exam Quiz</span>").appendTo($onsListExam);
     $("<span class='list-item__subtitle'>Test your knowledge!</span>").appendTo($onsListExam);
     $("<div class='footer'></div>").appendTo($page);
+  
+
 
     
     
