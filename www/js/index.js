@@ -100,7 +100,9 @@ function showMenu() {
     
     //variables
     var $page = $("<ons-page></ons-page>"); 
-    
+   
+      
+    var alerttest = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='showMenu()'>Cancel</button></div></ons-alert-dialog>").appendTo($page);
     var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
     var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
     $("<span class='menu'>Menu</span>").appendTo($tbcenter);
@@ -108,7 +110,7 @@ function showMenu() {
     var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
     //logout button
     var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
-            showLogin();      
+        alerttest.show();
         });; 
     
     $("<ons-icon class='myicon'></ons-icon>").appendTo($tbright);
@@ -126,9 +128,7 @@ function showMenu() {
     $("<span class='list-item__subtitle'>Test your knowledge!</span>").appendTo($onsListExam);
     $("<div class='footer'></div>").appendTo($page);
   
-
-
-    
+  
     
 
     $("#maincontent").html($page);
@@ -137,27 +137,56 @@ function showMenu() {
 //Quiz page (Mood)//
 function showQuizMood() {
     console.log("begin showQuizMood()");
-    var page = $("<div></div>"); //clear the page so new content can be added
-    var btnMenu = $(ons._util.createElement("<ons-button modifier='quiet'>go to menu</ons-button>"));
-    btnMenu.on("click", function(){
-         showMenu();
-     });
-    page.html("<h1>quiz page</h1>")
-    page.append(btnMenu)
+    var page = $("<ons-page></ons-page>"); 
+
+    
+    
+    $("<div class='footer'></div>").appendTo($page);
+
     $("#maincontent").html(page);   
 }
 
-//Quiz page (Exam)//
-
-//var div = document.createElement('div');
-//div.innerHTML = '<ons-button></ons-button>'
-//document.body.appendChild(div);
-//Answered page//
 
 
-//Summary/statistics page//
+//Quiz page (Exam)
+function showQuizExam() {
+    console.log("begin showQuizExam");
+    //variables
+    var $page = $("<ons-page></ons-page>"); 
+    
+    
+    
+    $("<div class='footer'></div>").appendTo($page);
+
+    $("#maincontent").html(page);   
+    
+}
 
 
+//Summary page//
+function showSummary() {
+    console.log("begin showSummary");
+    //variables
+    var $page = $("<ons-page></ons-page>"); 
+    
+    
+    
+    $("<div class='footer'></div>").appendTo($page);
+
+    $("#maincontent").html(page);   
+}
+
+function showStatistics() {
+    console.log("begin showStatistics");
+    //variables
+    var $page = $("<ons-page></ons-page>"); 
+    
+    
+    
+    $("<div class='footer'></div>").appendTo($page);
+
+    $("#maincontent").html(page);   
+}
 
 
 /*-----------------------
