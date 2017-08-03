@@ -217,6 +217,18 @@ ons-input {
 
 }
 
+.buttonfooter {
+    border-radius: 25px;
+    padding: 10px 40px; 
+    font-size: 20px;
+    font-weight: bold;
+    color:white; /*text colour */
+    background-color: #66CCCC; /*bg colour */
+    font-family: 'Josefin Sans', sans-serif;
+
+
+}
+
 .padding {
 padding-left: 10px;
     padding-right: 10px;
@@ -272,6 +284,11 @@ ons-page {
     color: white;
 }
 
+.quizicon {
+    color: #1A1A1A;
+
+}
+
 .menu {
     color: white;
     font-size: 30px;
@@ -304,7 +321,9 @@ ons-page {
 
 }
 
-
+.quizhelpbtn {
+    background-color: transparent;
+}
 .list-item__center {
     padding: 50px 20px 50px 20px;
     

@@ -65,9 +65,35 @@ FUNCTIONS
 ---------*/
 //Login page //
 
+//snippet from onsen to make popovers work
+//https://onsen.io/v2/api/js/ons-popover.html
+//if i rewrite jquery the animation does weird things so i've left it as normal js
+
+var showPopoverq1 = function(target) {
+  document
+    .getElementById('popoverq1')
+    .show(target);
+};
+
+var showPopoverq2 = function(target) {
+  document.getElementById('popoverq2').show(target);
+};
+
+var showPopoverq3 = function(target) {
+  document.getElementById('popoverq3').show(target);
+};
+
+var hidePopover = function() {
+  document.getElementById('popoverq1').hide();
+  document.getElementById('popoverq2').hide();
+  document.getElementById('popoverq3').hide();
+
+};
+    
+    
 var $alerttest = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
 
-var $alertMenu = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Exit Quiz?</div><div class='alert-dialog-content'>Are you sure you want to exit the quiz? Your progress will not be saved.</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+var $alertMenu = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Exit Quiz?</div><div class='alert-dialog-content'>Are you sure you want to exit the quiz? Your progress will not be saved.</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showMenu()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
 
 function alertCancel() {
     $alertMenu.hide();
@@ -176,40 +202,14 @@ function showMenu() {
 //Quiz page (Mood)//
 function showQuizMood() {
     console.log("begin showQuizMood()");
-    
-    //script from onsenui    
-    document.addEventListener('init', function(event) {
-  var page = event.target;
+        
+    var $page = $("<ons-page></ons-page>"); 
 
-  if (page.id === 'page1') {
-    page.querySelector('#push-button').onclick = function() {
-      document.querySelector('#Moodnavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
-    };
-  } else if (page.id === 'page2') {
-    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
-  }
-});
-    
-    
-   var $page = $("<div></div>"); 
-
-    var $footer = $("<div class='footer'></div>").appendTo($page);
-    var $btnReview = $("<ons-button class='buttoncs' onclick='showResults()'>Review</ons-button>").appendTo($footer);
-      $("<span>                 </span>").appendTo($footer);
-    var $btnQuit = $("<ons-button class='buttoncs'>Quit</ons-button>").appendTo($footer).on("click", function(){
-        $alertMenu.appendTo($page);
-        $alertMenu.show();
-    });
-    
-    
-
-
-
-    
+     
     //toolbar
-/*    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
     var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
-    $("<span class='menu'>Menu</span>").appendTo($tbcenter);
+    $("<span class='menu'>Mood Quiz</span>").appendTo($tbcenter);
     var $tbright = $("<div class='right'></div>").appendTo($toolbar); 
     var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
     //logout button
@@ -217,18 +217,58 @@ function showQuizMood() {
         $alerttest.appendTo($page);
         $alerttest.show();
         });; 
-    
+    //menu button
     var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbright).on("click",         function() {
         $alertMenu.appendTo($page);
         $alertMenu.show();
         });; 
-    
+    //icons for toolbar
     $("<ons-icon icon='home'></ons-icon>").appendTo($tbbutton2);
     $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
-    var $onsList = $("<ons-list></ons-list>").appendTo($page);
     
-    $("<div class='footer'></div>").appendTo($page);
-*/
+    //carousel
+    var $Carcontainer = $("<ons-carousel fullscreen swipeable auto-scroll overscrollable id='carousel'></ons-carousel>").appendTo($page);
+    
+    var $car1 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
+    var $car1content = $("<div class='quiznumber'>Q1:</div><div class='quizques'>Date:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq1(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizanswer'><ons-input type='date'></ons-input></div><div class='break'></div><div class='quiznumber'>Q2:</div><div class='quizques'>Full name:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq2(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizanswer'><input type='text' class='text-input' placeholder='Type here'></input></div>").appendTo($car1);
+  
+    $("<ons-popover direction='up' id='popoverq1' cancelable><p>The date you started this quiz.</p><p><ons-button onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    
+    $("<ons-popover direction='up' id='popoverq2' cancelable><p>Your full name.</p><p><ons-button onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    
+    var $car3 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
+    var $car3content = $("<div class='quiznumber'>Q3:</div><div class='quizques'>Diary:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq3(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizanswer'><textarea class='textarea' placeholder='Type here'></textarea></div>").appendTo($car3);
+        
+    $("<ons-popover direction='up' id='popoverq3' cancelable><p>Write 4 paragraphs.</p><p><ons-button onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    
+    var $car4 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
+    var $car4content = $("<div class='quiznumber'>Q4:</div><div class='quizques'>Gender:</div><div class='quizanswer'><ons-list-item class ='quizlistitem' tappable><label class='left'><ons-radio name='gender' input-id='radio-1' checked></ons-radio></label><label for='radio-1' class='center'>Male</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Female</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Depends what day it is</label></ons-list-item></div>").appendTo($car4);
+    
+     
+    
+    
+    
+    
+    var $car6 = $("<ons-carousel-item><p>ahoy</p></ons-carousel-item>").appendTo($Carcontainer);
+    var $car6content = $("<div class='quiznumber'>Q1:</div><div class='quizques'>Date:</div><div class='quizhelp'><ons-button><ons-icon icon='question-circle'></ons-icon></onsbutton></div><div class='quizanswer'><ons-input type='date'></ons-input></div>").appendTo($car6);
+    
+ var prev = function() {
+  var carousel = $('carousel');
+  carousel.prev();
+};
+
+var next = function() {
+  var carousel = $('carousel');
+  carousel.next();
+};
+
+//code snippet from onsen ui about carousels       
+ons.ready(function() {
+  var carousel = document.addEventListener('postchange', function(event) {
+    console.log('Changed to ' + event.activeIndex)
+  });
+});
+    
     $("#maincontent").html($page);   
 }
 
@@ -239,21 +279,24 @@ function showQuizExam() {
     console.log("begin showQuizExam");
     //variables
     var $page = $("<ons-page></ons-page>"); 
+    var $baghjzing = $("<ons-button>bazighjnga</ons-button>").appendTo($page);
+    $("<br/>").appendTo($page);
+    var $bazing = $("<ons-button>bazinga</ons-button>").appendTo($page);
+    $("<br/>").appendTo($page);
+    var $bazin45g = $("<ons-button>bazinga45</ons-button>").appendTo($page);
+    $("<br/>").appendTo($page);
     
-    const quizContainer = $("<div id='quiz'></div>").appendTo($page)
-    const resultsContainer = $("<div id='results'></div>").appendTo($page)
-    const $btnSubmit = $("<ons-button id='results' class='buttoncs'>Submit</ons-button>").appendTo($conFields).on("click", function(){
-        showResults();
-    });
+   $("<ons-button onclick='showPopover(this)'>Click me</ons-button>").appendTo($page);
+  $("<ons-popover direction='up' id='popover' cancelable><p>ThisPAPERBAGS</p><p><ons-button onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    $("<br/>").appendTo($page);
+
+       $("<ons-button onclick='showPopover2(this)'>Click me</ons-button>").appendTo($page);
+
+$("<ons-popover direction='up' id='popover2' cancelable><p>RAWRAHFDHF</p><p><ons-button onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    $("<br/>").appendTo($page);
     
-    function buildQuiz() {
-        
-    }
-    
-    function showResults() {
-        
-    }
-    
+
+
     $("<div class='footer'></div>").appendTo($page);
 
     $("#maincontent").html($page);   

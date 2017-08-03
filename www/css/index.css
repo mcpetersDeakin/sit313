@@ -284,6 +284,15 @@ ons-page {
     color: white;
 }
 
+.quizicon {
+    color: #1A1A1A;
+
+}
+
+.quizlistitem {
+
+}
+
 .menu {
     color: white;
     font-size: 30px;
@@ -316,14 +325,12 @@ ons-page {
 
 }
 
-
-.list-item__center {
-    padding: 50px 20px 50px 20px;
-    
+.quizhelpbtn {
+    background-color: transparent;
 }
-
-.ons-list-item {
-    border: 20px; 
+.list-item__center {
+    padding: 20px 30px 30px 20px;
+    
 }
 
 
