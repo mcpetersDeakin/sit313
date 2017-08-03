@@ -52,7 +52,9 @@ font-family: 'Roboto', sans-serif;
     font-family: 'Josefin Sans', sans-serif;
     color: aqua;
 }
-
+.rangeicon {
+    color: #1A1A1A;
+}
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
@@ -64,6 +66,20 @@ body {
     margin:0px;
     padding:0px;
     width:100%;
+}
+
+.page__content::-webkit-scrollbar,
+::-webkit-scrollbar {
+  display: block;
+  background-color: white;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #666;
+  border: 1px solid white;
 }
 
 .alert-dialog-title {
@@ -126,12 +142,6 @@ body {
 
 
 
-/*@font-face {
- / font-family: "body-font";
-  src: url("../assets/OpenSans-Regular.ttf");  // Give relative path to your css file.
-}*/
-
-/*Exo2-Regular */
 h1 {
     font-size:24px;
     font-weight:normal;
@@ -144,14 +154,6 @@ h1 {
 ons-input input {
     width: 50vw !important;
     font-size: 20px !important;
-    color: #66CCCC !important;
-    font-family: 'title-font';
-
-
-}
-
-ons-input {
-    font-family: 'title-font';
 
 }
 
@@ -217,6 +219,30 @@ ons-input {
 
 }
 
+.quizmoodbtn {
+    border-radius: 25px;
+    padding: 10px 40px; 
+    font-size: 20px;
+    font-weight: bold;
+    color:white; 
+    background-color: #66CCCC; 
+    font-family: 'Josefin Sans', sans-serif;
+    bottom: 20px;
+    
+}
+
+.buttoncs2 {
+    border-radius: 25px;
+    padding: 5px 20px; 
+    font-size: 17px;
+    font-weight: bold;
+    color:white; 
+    background-color: #66CCCC; 
+    font-family: 'Josefin Sans', sans-serif;
+
+
+}
+
 .buttonfooter {
     border-radius: 25px;
     padding: 10px 40px; 
@@ -242,6 +268,15 @@ padding-left: 10px;
     text-align: center;
     position: absolute;
     top: 50%;
+    left: 0;    
+
+}
+
+.conFieldsSubmit {
+
+    width: 100vw;
+    text-align: center;
+    position: absolute;
     left: 0;    
 
 }
@@ -275,9 +310,27 @@ ons-page {
 
 }
 
+label {
+    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    color: #1A1A1A;
+}
 .break {
     padding-bottom: 40px;
 }
+
+
+.quizrangemood {
+        background: rgb(41,54,77);/* Old Browsers */
+background: -moz-linear-gradient(left, rgb(41,54,77) 0%, rgb(252,113,109) 100%); /* FF3.6+ */
+background: -webkit-gradient(left top, right top, color-stop(0%, rgb(41,54,77)), color-stop(100%, rgb(252,113,109)));/* Chrome, Safari4+ */
+background: -webkit-linear-gradient(left, rgb(41,54,77) 0%, rgb(252,113,109) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left, rgb(41,54,77) 0%, rgb(252,113,109) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left, rgb(41,54,77) 0%, rgb(252,113,109) 100%); /* IE 10+ */
+background: linear-gradient(to right, rgb(41,54,77) 0%, rgb(252,113,109) 100%);/* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29364d', endColorstr='#fc716d', GradientType=1 );/* IE6-9 */
+}
+
 
 .ons-icon {
     font-size: 30px;
@@ -285,12 +338,57 @@ ons-page {
 }
 
 .quizicon {
-    color: #1A1A1A;
+    color: #66CCCC;
 
 }
 
 .quizlistitem {
 
+}
+
+.quizhelpbtn {
+    background-color:transparent;
+    padding: 0px 0px 0px 0px;  
+    
+}
+
+.quiznumber {
+    padding-top: 3%;
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 5%;
+    font-family: 'Josefin Sans', sans-serif;
+
+
+}
+
+.quizlabel {
+    font-size: 15px;
+    font-family: 'Open Sans', sans-serif;
+    color: #1A1A1A;
+}
+
+.quizques {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 600;
+    font-size: 25px;
+    padding-left: 10%;
+    padding-bottom: 4%;
+    color: #66CCCC;
+}
+
+.quizanswer {
+    padding-left: 10%;
+}
+
+input {
+    font-size: 20px !important;
+}
+
+.quizhelp {
+    padding-left: 80%;
+    position: absolute;
 }
 
 .menu {
@@ -307,27 +405,42 @@ ons-page {
 
 }
 
+.popover {
+    text-align: center;
+}
+
+p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
 
 .list-item__title {
-    font-size: 25px;
-    color: #66CCCC;
+    font-size: 28px;
+    color: #1A1A1A;
     font-weight: bold;
     padding-bottom: 10px;
-    font-family: 'Roboto', sans-serif;
-
+font-family: 'Josefin Sans', sans-serif;
 }
+
+
 
 .list-item__subtitle {
     text-transform: none;
-    font-size: 20px;
-    color: #1A1A1A;
+    padding-top: 7px;
+    font-size: 17px;
+    color: #66CCCC;
     font-family: 'Open Sans', sans-serif;
 
 }
 
-.quizhelpbtn {
-    background-color: transparent;
+
+.textarea {
+    width: 90%;
+    height: 20%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px
 }
+
 .list-item__center {
     padding: 20px 30px 30px 20px;
     
