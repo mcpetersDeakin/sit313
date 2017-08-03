@@ -91,13 +91,19 @@ var hidePopover = function() {
 };
     
     
-var $alerttest = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+var $alerttest = $("<ons-alert-dialog animation='default'><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
 
-var $alertMenu = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Exit Quiz?</div><div class='alert-dialog-content'>Are you sure you want to exit the quiz? Your progress will not be saved.</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showMenu()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+var $alertMenu = $("<ons-alert-dialog animation='default'><div class='alert-dialog-title'>Exit Quiz?</div><div class='alert-dialog-content'>Your progress will not be saved.</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showMenu()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+
+var $alertSubmit = $("<ons-alert-dialog animation='default'><div class='alert-dialog-title'>Submit Quiz?</div><div class='alert-dialog-content'>Do you want to submit the quiz?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showStatistics()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+
+
 
 function alertCancel() {
     $alertMenu.hide();
     $alerttest.hide();
+    $alertSubmit.hide();
+
 }
 
 function showLogin() {
@@ -235,7 +241,7 @@ function showQuizMood() {
     $("<ons-popover direction='up' id='popoverq1' cancelable><p>The date you started this quiz.</p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
     
     var $car2 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);    
-    var $car2content = $("<div class='quiznumber'>Q2:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq2(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques'>Full name:</div><div class='quizanswer'><ons-input modifier='underbar' class='text-input' placeholder='Enter your full name.'></ons-input></div>").appendTo($car2);
+    var $car2content = $("<div class='quiznumber'>Q2:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq2(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques'>Full name:</div><div class='quizanswer'><ons-input class='text-input' placeholder='Enter your full name.'></ons-input></div>").appendTo($car2);
 
 
 
@@ -260,7 +266,14 @@ function showQuizMood() {
     var $car7content = $("<div class='quiznumber'>Q7:</div><div class='quizques'>Blood Alcohol:</div><div class='quizanswer'><ons-range class='quizrangeBAC' min='0' max='0.5' step='0.01' style='width: 90%;' value='0.05'></ons-range><br/><br/><label class='quizlabel'>Level: 0.05</label></div>").appendTo($car7);
           
     
-    $("<div class='footer'></div>").appendTo($page);
+    var $footer = $("<div class='footer'></div>").appendTo($page);
+
+    var $quizMoodSubmit = $("<div class='confieldsSubmit'><ons-button class='quizmoodbtn'>Submit</ons-button></div>").appendTo($footer).on("click", function() {
+            
+        $alertSubmit.appendTo($page);
+        $alertSubmit.show(); 
+        });    
+    
 
 
  var quizprev = function() {
@@ -298,12 +311,16 @@ function showQuizExam() {
     //variables
     var $page = $("<ons-page></ons-page>"); 
    
+$("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent at sem vitae est venenatis efficitur a convallis leo. Mauris facilisis tellus ac nisl tempus finibus eget eu justo. Ut semper arcu id neque feugiat, ut aliquet nunc sollicitudin. Donec nulla velit, ullamcorper non molestie eget, ullamcorper iaculis urna. Pellentesque ultrices mauris sed dapibus aliquet. Vivamus maximus ultricies libero a pulvinar. Vestibulum mollis vulputate ipsum sit amet ornare. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus id fringilla mauris. Nullam elementum finibus erat a mattis. Integer quis elit augue. Mauris molestie, est eu suscipit luctus, ligula sapien venenatis odio, eget luctus odio purus eget augue. Sed eu ullamcorper metus. Vestibulum magna erat, placerat eu iaculis a, vehicula a sem. In sed vestibulum leo, sit amet vestibulum dolor.Pellentesque ultricies iaculis nunc at iaculis. Cras imperdiet urna ipsum, eu tempus quam pellentesque cursus. Vivamus sed sem nisl. Nunc laoreet urna id ex malesuada vulputate. Morbi ac mauris velit. Mauris aliquet nulla quam, in feugiat nulla viverra at. Proin eget sodales ipsum. Nam non ullamcorper dolor. Nunc luctus purus id lectus elementum, id blandit velit blandit. Morbi eget dui eu justo dictum interdum. Nulla rhoncus at lorem at eleifend. Aliquam iaculis ipsum vitae odio efficitur maximus vel sit amet nulla.Phasellus feugiat sapien eget erat pretium, et ullamcorper ex fermentum. Nam sapien ipsum, consectetur ut gravida sit amet, bibendum in metus. Mauris non molestie mauris. Sed feugiat lobortis urna. In hac habitasse platea dictumst. Mauris semper ultricies tellus ac pretium. Vivamus lobortis convallis lacinia. Proin vel gravida ante. Quisque posuere ante ac erat egestas, et maximus enim ultricies. Aenean id nisl arcu.Nullam scelerisque faucibus enim, sit amet luctus magna gravida ac. Fusce et felis finibus, pretium enim placerat, pharetra libero. Duis faucibus lorem eget est interdum lacinia. Ut eget aliquam sem. Nam congue, nulla quis rhoncus feugiat, mauris lectus mollis dolor, sit amet ullamcorper diam leo blandit justo. Aenean vulputate auctor euismod. Maecenas efficitur interdum est, eget egestas orci mattis non. Nunc vehicula dictum urna, eu interdum lacus dictum sit amet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed cursus urna eros, in elementum nulla facilisis sed.Morbi a sodales justo. Vivamus id erat nec sem congue tempus sit amet eget tortor. Donec pharetra, lorem eget fringilla suscipit, nibh leo ultrices urna, nec efficitur nisi tellus vel sapien. Integer pulvinar dui magna, gravida posuere arcu aliquet non. Phasellus semper elementum sapien vitae bibendum. Nulla auctor pellentesque odio, et hendrerit ligula porttitor semper. Nulla scelerisque viverra eros, eget dapibus libero auctor vitae. Aliquam tempus velit sit amet porttitor ultricies. Vivamus quis dignissim dui, at blandit arcu. Donec cursus, enim vel tincidunt dignissim, justo augue aliquet lacus, nec tempus nunc est vel erat. Nam dapibus bibendum vestibulum. Pellentesque nec consectetur velit. Quisque pharetra eros elit, nec dignissim leo eleifend convallis. Donec pulvinar quam ac leo suscipit, vel semper nulla molestie. Curabitur lectus est, sodales a dignissim ac, aliquam ac ex. Aenean condimentum urna turpis, vitae hendrerit massa finibus vel.</p>").appendTo($page);
+    
+    
     
     
     $("#maincontent").html($page);   
     
 }
 
+//Statistics page
 
 function showStatistics() {
     console.log("begin showStatistics");

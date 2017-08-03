@@ -83,13 +83,24 @@ var showPopoverq3 = function(target) {
   document.getElementById('popoverq3').show(target);
 };
 
+var showPopoverExam = function(target) {
+  document
+    .getElementById('popoverexam')
+    .show(target);
+};
+
+
 var hidePopover = function() {
   document.getElementById('popoverq1').hide();
   document.getElementById('popoverq2').hide();
   document.getElementById('popoverq3').hide();
-
 };
-    
+   
+var hidePopoverExam = function() {
+    document.getElementById('popoverexam').hide();
+};
+  
+
     
 var $alerttest = $("<ons-alert-dialog animation='default'><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
 
@@ -264,7 +275,7 @@ function showQuizMood() {
     
     var $car7 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);    
     var $car7content = $("<div class='quiznumber'>Q7:</div><div class='quizques'>Blood Alcohol:</div><div class='quizanswer'><ons-range class='quizrangeBAC' min='0' max='0.5' step='0.01' style='width: 90%;' value='0.05'></ons-range><br/><br/><label class='quizlabel'>Level: 0.05</label></div>").appendTo($car7);
-          
+    
     
     var $footer = $("<div class='footer'></div>").appendTo($page);
 
@@ -311,14 +322,93 @@ function showQuizExam() {
     //variables
     var $page = $("<ons-page></ons-page>"); 
    
+ //toolbar
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
+    $("<span class='menu'>Exam Quiz</span>").appendTo($tbcenter);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar); 
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
+    //logout button
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+        $alerttest.appendTo($page);
+        $alerttest.show();
+        });; 
+    //menu button
+    var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbright).on("click",         function() {
+        $alertMenu.appendTo($page);
+        $alertMenu.show();
+        });; 
+    //icons for toolbar
+    $("<ons-icon icon='home'></ons-icon>").appendTo($tbbutton2);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+    
+    
+    $("<div class='quiznumber'>Q1:</div><div class='quizques'>Student ID:</div><div class='quizanswer'><ons-input class='text-input' placeholder='Enter your SID.'></ons-input><br/><span class='validatesid'>*Error: Invalid SID. SID must be numbers only.<span></div>").appendTo($page);
 
+    $("<div class='quiznumber'>Q2:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverExam(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques'>Name:</div><div class='quizanswer'><ons-input class='text-input' placeholder='Enter your full name.'></ons-input></div>").appendTo($page);
     
-    
+    $("<ons-popover direction='up' id='popoverexam' cancelable><p>Your full name.</p><p><ons-button class='buttoncs2' onclick='hidePopoverExam()'>Close</ons-button></p></ons-popover>").appendTo($page);
+
+    var $footer = $("<div class='footer'></div>").appendTo($page);
+
+    var $quizMoodSubmit = $("<div class='confieldsSubmit'><ons-button class='quizmoodbtn'>Next</ons-button></div>").appendTo($footer).on("click", function() {
+            
+    showQuizExamQ();
+        });    
     
     
     $("#maincontent").html($page);   
     
 }
+
+function showQuizExamQ() {
+    console.log("begin showQuizExamQ");
+    //variables
+    var $page = $("<ons-page></ons-page>"); 
+   
+ //toolbar
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
+    $("<span class='menu'>Exam Quiz</span>").appendTo($tbcenter);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar); 
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
+    //logout button
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+        $alerttest.appendTo($page);
+        $alerttest.show();
+        });; 
+    //menu button
+    var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbright).on("click",         function() {
+        $alertMenu.appendTo($page);
+        $alertMenu.show();
+        });; 
+    //icons for toolbar
+    $("<ons-icon icon='home'></ons-icon>").appendTo($tbbutton2);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+        
+    
+    $("<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input class='text-input' placeholder='Enter your answer.'></ons-input><div class='break'></div></div>").appendTo($page);
+    
+    $("<div class='quiznumber'>Q4:</div><div class='quizques'>What is the largest state in Australia?</div><div class='quizanswer'><ons-input class='text-input' placeholder='Enter your answer.'></ons-input><br/><div class='break'></div></div>").appendTo($page);
+    
+    $("<div class='quiznumber'>Q5:</div><div class='quizques'>What is the capital of Victoria?</div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='capitalaus' input-id='radio-1' checked></ons-radio></label><label for='radio-1' class='center'>Sydney</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='capitalaus' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Brisbane</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='capitalaus' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Melbourne</label></ons-list-item><div class='break'></div></div>").appendTo($page);
+    
+    $("<div class='quiznumber'>Q6:</div><div class='quizques'>Which are the territories of Australia?</div><div class='quizanswer'>  <ons-list-item tappable><label class='left'><ons-checkbox input-id='check-1'></ons-checkbox></label><label for='check-1' class='center'>ACT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-2'></ons-checkbox></label><label for='check-2' class='center'>NSW</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-3'></ons-checkbox></label><label for='check-3' class='center'>NT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-4'></ons-checkbox></label><label for='check-4' class='center'>QLD</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-5'></ons-checkbox></label><label for='check-5' class='center'>SA</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-6'></ons-checkbox></label><label for='check-6' class='center'>TAS</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-7'></ons-checkbox></label><label for='check-7' class='center'>VIC</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-8'></ons-checkbox></label><label for='check-8' class='center'>WA</label></ons-list-item></div>").appendTo($page);
+
+    $("<div class='break'></div><div class='break'></div><div class='break'></div><div class='break'></div>").appendTo($page);
+    
+    var $footer = $("<div class='footer'></div>").appendTo($page);
+
+    var $quizMoodSubmit = $("<div class='confieldsSubmit'><ons-button class='quizmoodbtn'>Submit</ons-button></div>").appendTo($footer).on("click", function() {
+            
+        $alertSubmit.appendTo($page);
+        $alertSubmit.show(); 
+        });    
+    
+    $("#maincontent").html($page);   
+    
+}
+
 
 //Statistics page
 
@@ -328,6 +418,28 @@ function showStatistics() {
     var $page = $("<ons-page></ons-page>"); 
     
     //div container holding stats at top, and another div container holding answers wrong
+    
+    //toolbar
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
+    $("<span class='menu'>Results</span>").appendTo($tbcenter);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar); 
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
+    //logout button
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+        $alerttest.appendTo($page);
+        $alerttest.show();
+        });; 
+    //menu button
+    var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbright).on("click",         function() {
+        $alertMenu.appendTo($page);
+        $alertMenu.show();
+        });; 
+    //icons for toolbar
+    $("<ons-icon icon='home'></ons-icon>").appendTo($tbbutton2);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+    
+    
     
     
     $("<div class='footer'></div>").appendTo($page);
@@ -347,7 +459,7 @@ $(document).ready(function () {
   
 
     
- showQuizMood();
+ showStatistics();
     
 
 });
