@@ -77,6 +77,9 @@ body {
 .alert-dialog-content {
     font-family: 'Open Sans', sans-serif;
     color: #6F6F6F;
+    padding-bottom: 20px;
+    border-radius: 25px;
+
 
 }
 
@@ -206,6 +209,7 @@ ons-input {
     padding: 10px 40px; 
     font-size: 20px;
     font-weight: bold;
+    bottom: 50px;
     color:white; /*text colour */
     background-color: #66CCCC; /*bg colour */
     font-family: 'Josefin Sans', sans-serif;
@@ -225,7 +229,7 @@ padding-left: 10px;
     width: 100vw;
     text-align: center;
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 0;    
 
 }
@@ -243,6 +247,10 @@ ons-input {
 
 }
 
+ons-page {
+    background-color: transparent;
+}
+
 .title {
     font-family: 'Josefin Sans', sans-serif;
     color: #1A1A1A;
@@ -251,7 +259,7 @@ ons-input {
     text-align: center;
     position: absolute;
     left: 0;
-    top: 22%; 
+    top: 24%; 
 
 }
 
@@ -266,7 +274,11 @@ ons-input {
 
 .menu {
     color: white;
-    font-size: 25px;
+    font-size: 30px;
+    font-weight: 500;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+
 }
 
 .toolbar {
@@ -280,12 +292,16 @@ ons-input {
     color: #66CCCC;
     font-weight: bold;
     padding-bottom: 10px;
+    font-family: 'Roboto', sans-serif;
+
 }
 
 .list-item__subtitle {
     text-transform: none;
     font-size: 20px;
     color: #1A1A1A;
+    font-family: 'Open Sans', sans-serif;
+
 }
 
 
@@ -294,6 +310,9 @@ ons-input {
     
 }
 
+.ons-list-item {
+    border: 20px; 
+}
 
 
 .myicon {

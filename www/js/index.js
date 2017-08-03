@@ -65,6 +65,15 @@ FUNCTIONS
 ---------*/
 //Login page //
 
+var $alerttest = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+
+var $alertMenu = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Exit Quiz?</div><div class='alert-dialog-content'>Are you sure you want to exit the quiz? Your progress will not be saved.</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showMenu()'>OK</button><button class='alert-dialog-button' onclick='alertCancel()'>Cancel</button></div></ons-alert-dialog>");
+
+function alertCancel() {
+    $alertMenu.hide();
+    $alerttest.hide();
+}
+
 function showLogin() {
     console.log("begin showLogin()");
     
@@ -79,8 +88,14 @@ function showLogin() {
     var $pw = $("<ons-input id='pw' modifier='underbar' type='password' placeholder='Password' float></ons-input>").appendTo($conFields);    
     $("<div class='break'></div>").appendTo($conFields);
     $("<div class='footer'></div>").appendTo($page);    
+    $("<div class='break'></div>").appendTo($conFields);
     
     //button
+    var $btnSignUp = $("<ons-button class='buttoncs'>Register</ons-button>").appendTo($conFields).on("click", function(){
+        showMenu();
+    });
+    $("<span>                 </span>").appendTo($conFields);
+
     var $btnLogin = $("<ons-button class='buttoncs'>Login</ons-button>").appendTo($conFields).on("click", function(){
         showMenu();
     });
@@ -92,6 +107,23 @@ function showLogin() {
 
 
 
+//SignUp page
+
+function showSignUp() {
+    console.log("begin showSignUp()");
+    
+    //variables declared and appendto elements
+    var $page = $("<ons-page></ons-page>"); 
+    $("<div class='logo'></div>").appendTo($page);
+    $("<div class='title'>QUIZI</div>").appendTo($page);    
+    
+
+
+    
+    //main
+    $("#maincontent").html($page);
+}
+
 
 
 //Menu page//
@@ -101,8 +133,8 @@ function showMenu() {
     //variables
     var $page = $("<ons-page></ons-page>"); 
    
-      
-    var alerttest = $("<ons-alert-dialog animation='default' cancelable><div class='alert-dialog-title'>Logout?</div><div class='alert-dialog-content'>Are you sure you want to logout?</div><div class='alert-dialog-footer'><button class='alert-dialog-button' onclick='showLogin()'>OK</button><button class='alert-dialog-button' onclick='showMenu()'>Cancel</button></div></ons-alert-dialog>").appendTo($page);
+
+   //toolbar
     var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
     var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
     $("<span class='menu'>Menu</span>").appendTo($tbcenter);
@@ -110,18 +142,21 @@ function showMenu() {
     var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
     //logout button
     var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
-        alerttest.show();
+        $alerttest.appendTo($page);
+        $alerttest.show();
         });; 
     
     $("<ons-icon class='myicon'></ons-icon>").appendTo($tbright);
-    var $tbhome = $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
     var $onsList = $("<ons-list></ons-list>").appendTo($page);
     //quiz buttons
     var $onsListMood = $("<ons-list-item tappable></ons-list-item>").appendTo($onsList).on("click",       function() {
             showQuizMood(); 
         });    
     
-    var $onsListExam = $("<ons-list-item tappable></ons-list-item>").appendTo($onsList);
+    var $onsListExam = $("<ons-list-item tappable></ons-list-item>").appendTo($onsList).on("click", function() {
+    showQuizExam();
+    });
     $("<span class='list-item__title'>Mood Quiz</span>").appendTo($onsListMood);
     $("<span class='list-item__subtitle'>How are you feeling today?</span>").appendTo($onsListMood);
     $("<span class='list-item__title'>Exam Quiz</span>").appendTo($onsListExam);
@@ -129,6 +164,10 @@ function showMenu() {
     $("<div class='footer'></div>").appendTo($page);
   
   
+    //solution to alert for multipages? maybe create a <div class='alert'></div> in html
+    //then append the alert var to the alert class div, that way when overwriting the html
+    //it doesnt overwrite the alert class bc its outisde of main content?
+    //which shouldnt matter bc its hiding by default ??
     
 
     $("#maincontent").html($page);
@@ -137,13 +176,41 @@ function showMenu() {
 //Quiz page (Mood)//
 function showQuizMood() {
     console.log("begin showQuizMood()");
-    var page = $("<ons-page></ons-page>"); 
+        
+    var $page = $("<ons-page></ons-page>"); 
 
+    var $footer = $("<div class='footer'></div>").appendTo($page);
+    var $btnReview = $("<ons-button class='buttonfooter' onclick='showSummary()'>Review</ons-button>").appendTo($footer);
+      $("<span>                 </span>").appendTo($footer);
+    var $btnQuit = $("<ons-button class='buttonfooter'>Quit</ons-button>").appendTo($footer).on("click", function(){
+        $alertMenu.appendTo($page);
+        $alertMenu.show();
+    });
+     
+    //toolbar
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar); 
+    $("<span class='menu'>Mood Quiz</span>").appendTo($tbcenter);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar); 
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar); 
+    //logout button
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+        $alerttest.appendTo($page);
+        $alerttest.show();
+        });; 
     
+    var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbright).on("click",         function() {
+        $alertMenu.appendTo($page);
+        $alertMenu.show();
+        });; 
+    
+    $("<ons-icon icon='home'></ons-icon>").appendTo($tbbutton2);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+    var $onsList = $("<ons-list></ons-list>").appendTo($page);
     
     $("<div class='footer'></div>").appendTo($page);
 
-    $("#maincontent").html(page);   
+    $("#maincontent").html($page);   
 }
 
 
@@ -154,13 +221,27 @@ function showQuizExam() {
     //variables
     var $page = $("<ons-page></ons-page>"); 
     
+    const quizContainer = $("<div id='quiz'></div>").appendTo($page)
+    const resultsContainer = $("<div id='results'></div>").appendTo($page)
+    const $btnSubmit = $("<ons-button id='results' class='buttoncs'>Submit</ons-button>").appendTo($conFields).on("click", function(){
+        showResults();
+    });
     
+    function buildQuiz() {
+        
+    }
+    
+    function showResults() {
+        
+    }
     
     $("<div class='footer'></div>").appendTo($page);
 
-    $("#maincontent").html(page);   
+    $("#maincontent").html($page);   
     
 }
+
+
 
 
 //Summary page//
@@ -173,7 +254,7 @@ function showSummary() {
     
     $("<div class='footer'></div>").appendTo($page);
 
-    $("#maincontent").html(page);   
+    $("#maincontent").html($page);   
 }
 
 function showStatistics() {
@@ -181,12 +262,15 @@ function showStatistics() {
     //variables
     var $page = $("<ons-page></ons-page>"); 
     
+    //div container holding stats at top, and another div container holding answers wrong
     
     
     $("<div class='footer'></div>").appendTo($page);
 
-    $("#maincontent").html(page);   
+
+    $("#maincontent").html($page);   
 }
+
 
 
 /*-----------------------
@@ -194,9 +278,12 @@ DOCUMENT.READY FUNCTION
 ------------------------*/
 
 $(document).ready(function () {
-    showMenu();
-        
+    
+  
 
+    
+ showQuizMood();
+    
 
 });
 

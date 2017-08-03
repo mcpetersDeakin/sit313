@@ -209,6 +209,19 @@ ons-input {
     padding: 10px 40px; 
     font-size: 20px;
     font-weight: bold;
+    bottom: 50px;
+    color:white; /*text colour */
+    background-color: #66CCCC; /*bg colour */
+    font-family: 'Josefin Sans', sans-serif;
+
+
+}
+
+.buttonfooter {
+    border-radius: 25px;
+    padding: 10px 40px; 
+    font-size: 20px;
+    font-weight: bold;
     color:white; /*text colour */
     background-color: #66CCCC; /*bg colour */
     font-family: 'Josefin Sans', sans-serif;
@@ -228,7 +241,7 @@ padding-left: 10px;
     width: 100vw;
     text-align: center;
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 0;    
 
 }
@@ -246,6 +259,10 @@ ons-input {
 
 }
 
+ons-page {
+    background-color: transparent;
+}
+
 .title {
     font-family: 'Josefin Sans', sans-serif;
     color: #1A1A1A;
@@ -254,7 +271,7 @@ ons-input {
     text-align: center;
     position: absolute;
     left: 0;
-    top: 22%; 
+    top: 24%; 
 
 }
 
