@@ -20,33 +20,22 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
-/*@font-face {
-  font-family: title-font;
-  src: url('../assets/JosefinSans-semibold.ttf') format('truetype');  
-}*/
-
+/*------------------------------
+CUSTOM FONTS
+------------------------------*/
 @font-face {
-  font-family: 'Josefin Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../assets/JosefinSans.woff2') format('woff2');
+    font-family: 'Josefin Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../assets/JosefinSans.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../assets/Roboto-Regular.woff2') format('woff2');
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../assets/OpenSans-Regular.woff2') format('woff2');
 }
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../assets/OpenSans-Regular.woff2') format('woff2');
-}
-
-font-family: 'Roboto', sans-serif;
 
 .ons-alert-dialog-content {
     font-family: 'Josefin Sans', sans-serif;
@@ -55,6 +44,7 @@ font-family: 'Roboto', sans-serif;
 .rangeicon {
     color: #1A1A1A;
 }
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
@@ -68,20 +58,10 @@ body {
     width:100%;
 }
 
-.page__content::-webkit-scrollbar,
-::-webkit-scrollbar {
-  display: block;
-  background-color: white;
-  width: 8px;
-}
 
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: #666;
-  border: 1px solid white;
-}
-
+/*------------------------------
+ALERT
+------------------------------*/
 .alert-dialog-title {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 20;
@@ -95,8 +75,6 @@ body {
     color: #6F6F6F;
     padding-bottom: 20px;
     border-radius: 25px;
-
-
 }
 
 .alert-dialog-button {
@@ -407,6 +385,10 @@ input {
     font-family: 'Open Sans', sans-serif;
     padding-bottom: 17%;
     
+}
+
+.validatesid {
+    color: red;
 }
 
 .boldtxt {
