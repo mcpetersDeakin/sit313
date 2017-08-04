@@ -231,6 +231,15 @@ ons-input input {
     
 }
 
+.buttoncsquiet {
+    font-size: 17px;
+    font-weight: bold;
+    color:#66CCCC; 
+    padding-bottom: 5%;
+    font-family: 'Josefin Sans', sans-serif;
+
+}
+
 .buttoncs2 {
     border-radius: 25px;
     padding: 5px 20px; 
@@ -389,6 +398,38 @@ input {
 .quizhelp {
     padding-left: 80%;
     position: absolute;
+}
+
+.revques {
+    color: #1A1A1A !important;
+    padding-left: 15%; 
+    font-size: 15px;
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 17%;
+    
+}
+
+.boldtxt {
+    font-weight: 600;
+}
+
+.incorrectq {
+    color: red;
+    padding-left: 5%;
+    position: absolute;
+    
+}
+
+.correctq {
+    color: green;
+    padding-left: 5%;
+    position: absolute;
+    
+}
+
+.resultspercent {
+    font-size: 90px;
+    color: #66CCCC !important;
 }
 
 .menu {
