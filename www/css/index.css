@@ -84,10 +84,10 @@ CSS ELEMENTS
 
 .alert-dialog-button {
     border-radius: 25px;
-    padding: 10p 30p; 
+    padding: 10p 30p;
     font-family: 'Open Sans', sans-serif;
     color:white;
-    background-color: #66CCCC; 
+    background-color: #66CCCC;
 }
 
 .page {
@@ -143,13 +143,13 @@ ons-input input {
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 @-webkit-keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
@@ -169,7 +169,7 @@ ons-input input {
 
 .buttoncs {
     border-radius: 25px;
-    padding: 10px 40px; 
+    padding: 10px 40px;
     font-size: 20px;
     font-weight: bold;
     bottom: 50px;
@@ -180,11 +180,11 @@ ons-input input {
 
 .quizmoodbtn {
     border-radius: 25px;
-    padding: 10px 40px; 
+    padding: 10px 40px;
     font-size: 20px;
     font-weight: bold;
-    color:white; 
-    background-color: #66CCCC; 
+    color:white;
+    background-color: #66CCCC;
     font-family: 'Josefin Sans', sans-serif;
     bottom: 20px;
 }
@@ -192,24 +192,24 @@ ons-input input {
 .buttoncsquiet {
     font-size: 17px;
     font-weight: bold;
-    color:#66CCCC; 
+    color:#66CCCC;
     padding-bottom: 5%;
     font-family: 'Josefin Sans', sans-serif;
 }
 
 .buttoncs2 {
     border-radius: 25px;
-    padding: 5px 20px; 
+    padding: 5px 20px;
     font-size: 17px;
     font-weight: bold;
-    color:white; 
-    background-color: #66CCCC; 
+    color:white;
+    background-color: #66CCCC;
     font-family: 'Josefin Sans', sans-serif;
 }
 
 .buttonfooter {
     border-radius: 25px;
-    padding: 10px 40px; 
+    padding: 10px 40px;
     font-size: 20px;
     font-weight: bold;
     color:white; /*text colour */
@@ -229,14 +229,22 @@ ons-input input {
     text-align: center;
     position: absolute;
     top: 50%;
-    left: 0;    
+    left: 0;
+}
+
+.conFields2 {
+    width: 100vw;
+    text-align: center;
+    position: absolute;
+    top: 40%;
+    left: 0;
 }
 
 .conFieldsSubmit {
     width: 100vw;
     text-align: center;
     position: absolute;
-    left: 0;    
+    left: 0;
 }
 
 .footer {
@@ -264,7 +272,7 @@ ons-page {
     text-align: center;
     position: absolute;
     left: 0;
-    top: 24%; 
+    top: 24%;
 }
 
 label {
@@ -277,7 +285,7 @@ label {
     padding-bottom: 40px;
 }
 
-/*Code snipper from: http://www.colorzilla.com/gradient-editor/ 
+/*Code snipper from: http://www.colorzilla.com/gradient-editor/
   A css gradient generator.*/
 
 .quizrangemood {
@@ -302,7 +310,7 @@ label {
 
 .quizhelpbtn {
     background-color:transparent;
-    padding: 0px 0px 0px 0px;  
+    padding: 0px 0px 0px 0px;
 }
 
 .quiznumber {
@@ -344,7 +352,7 @@ input {
 
 .revques {
     color: #1A1A1A !important;
-    padding-left: 15%; 
+    padding-left: 15%;
     font-size: 15px;
     font-family: 'Open Sans', sans-serif;
     padding-bottom: 17%;
@@ -422,7 +430,7 @@ font-family: 'Josefin Sans', sans-serif;
 
 .list-item__center {
     padding: 20px 30px 30px 20px;
-    
+
 }
 
 .myicon {
@@ -432,5 +440,5 @@ font-family: 'Josefin Sans', sans-serif;
     padding-right: 7px;
     height: 70%;
     background-repeat: no-repeat;
-    margin-top: 8px;   
+    margin-top: 8px;
 }
