@@ -1,0 +1,143 @@
+<html>
+<head>
+    <link rel="stylesheet" href="css/onsen-css-components.min.css">
+	<link rel="stylesheet" href="css/onsenui.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/onsenui.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    
+    <script>
+    //each user is a file on the server    
+    //one at a time need to encode each of variables bc / & % = etc all mean things
+    window.baseURl = "http://introtoapps.com/datastore.php?appid=215123769";
+    window.currentUsername = null;
+    window.forumTopics = [];  //square brackets = array
+        
+        function displayForumPage() {
+            for (var index = 0; index < forumTopics.length; index++) {
+                var topic = forumTopics[index];
+                $("body").append("<p>" + topic.title + " / " + topic.author + "</p>");
+            }
+            
+            //is an object
+            var newTopic = {
+                title: "whatever user typed",
+                author: window.currentUsername; //stored in a global variable so that currently logged in user is remembered.
+            }
+            
+            //push appends to array
+            forumTopics.push(newTopic);
+            
+        }
+        
+        function loadForumTopics() {
+            
+            //prefix = all forum topics start with post -- &action=list&prefix=post
+            var url = baseURl + "&action=load&objectid=forumtopics";
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                            try {
+                alert("Server returned: " + data);
+                //parse bc receiving the data
+
+                window.forumTopics = JSON.parse(data);
+                displayForumPage();
+            } catch(e) {
+                alert(e)
+            }
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+            
+        }
+        
+        function createUser(_username, _password, _age) {
+            var userObject = {
+                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
+                username : _username, 
+                password : _password,
+                age : _age 
+            };
+            //data must be a string. want it to be a string of above variables ^ user, pw, age
+            //easiest way to do this is to use JSON.stringify() and JSON.parse()
+            
+            var data = JSON.stringify(userObject);
+            alert("data to be saved " + data);
+            
+            //create a url for saving
+            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            alert("URL: " + url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+                $("body").append(data);
+            
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
+        
+        
+        function loadUser(username) {
+            
+            //inputs such as username
+            var url = baseURl + "&action=load&objectid=" + encodeURIComponent(username) + ".user";
+            
+            console.log(url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //function returns - data when .done and then function {} tells what u want to do with it
+                .done(function(data) {
+                $("body").append(data);
+            
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
+        
+        $(document).ready(function() {
+         //createUser("Meg", "my_password", 21);
+            
+             // loadUser("Meg");
+            
+            loadForumTopics();
+        });
+    
+    </script>
+
+    </head>
+<body>
+
+    <div id='maincontent'></div>
+    
+
+
+
+</body>
+</html>
