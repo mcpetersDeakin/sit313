@@ -56,6 +56,10 @@ SID: 215123769
 FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
 --------------------------------------------------*/
 
+//GLOBAL:
+
+
+
 //snippet from onsen to make popovers work
 //https://onsen.io/v2/api/js/ons-popover.html
 //if i rewrite jquery the animation does weird things so i've left it as normal js
@@ -106,14 +110,16 @@ LOGIN PAGE
 
 function showLogin() {
     console.log("begin showLogin()");
+        console.log("begin loadquestions()");
+
+
 
     //variables declared and appendTo elements
     //everything wrapped in an ons-page tag
 
     var $page = $("<ons-page></ons-page>");
     $("<div class='logo'></div>").appendTo($page);
-    $("<div class='title'>QUIZI</div>").appendTo($page);
-
+    $("<div id='title' class='title'>QUIZI</div>").appendTo($page);
 
     //container for login fields and login button
     var $conFields = $("<div class='conFields'></div>").appendTo($page);
@@ -141,6 +147,7 @@ function showLogin() {
     });
 
     $("#maincontent").html($page);
+    
 }
 
 /*------------------------------
@@ -247,6 +254,10 @@ QUIZ PAGE - MOOD
 function showQuizMood() {
     console.log("begin showQuizMood()");
 
+
+    
+    
+    
     //everything wrapped in an ons-page tag
     var $page = $("<ons-page></ons-page>");
 
@@ -277,34 +288,39 @@ function showQuizMood() {
 
     //question 1 - popover + date input
     var $car1 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car1content = $("<div class='quiznumber'>Q1:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq1(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques'>Date:</div><div class='quizanswer'><ons-input type='date'></ons-input></div><div class='break'></div>").appendTo($car1);
+    var $car1content = $("<div id='q1nMood' class='quiznumber'>Q1:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq1(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div id='q1tMood' class='quizques'></div><div class='quizanswer'><ons-input id='q1aMood' type='date'></ons-input></div><div class='break'></div>").appendTo($car1);
     //popover hint
-    $("<ons-popover direction='up' id='popoverq1' cancelable><p>The date you started this quiz.</p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    $("<ons-popover direction='up' id='popoverq1' cancelable><p id='pop1Mood'></p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
 
     //question 2 - popover + text input
     var $car2 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car2content = $("<div class='quiznumber'>Q2:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq2(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques'>Full name:</div><div class='quizanswer'><ons-input placeholder='Enter your full name.'></ons-input></div>").appendTo($car2);
+    var $car2content = $("<div class='quiznumber'>Q2:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq2(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div id='q2tMood' class='quizques'></div><div class='quizanswer'><ons-input id='q2aMood' placeholder='Enter your full name.'></ons-input></div>").appendTo($car2);
     //popover hint
-    $("<ons-popover direction='up' id='popoverq2' cancelable><p>Your full name.</p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    $("<ons-popover direction='up' id='popoverq2' cancelable><p id='pop2Mood'></p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
 
     //question 3 - popover + text area
     var $car3 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car3content = $("<div class='quiznumber'>Q3:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq3(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques'>Diary:</div><div class='quizanswer'><textarea class='textarea' placeholder='Enter your diary entry.'></textarea></div>").appendTo($car3);
+    var $car3content = $("<div class='quiznumber'>Q3:</div><div class='quizhelp'><ons-button class='quizhelpbtn' onclick='showPopoverq3(this)'><ons-icon class='quizicon' icon='question-circle'></ons-icon></ons-button></div><div class='quizques' id='q3tMood' ></div><div class='quizanswer'><textarea class='textarea' placeholder='Enter your diary entry.' id='q3aMood'></textarea></div>").appendTo($car3);
     //popover hint
-    $("<ons-popover direction='up' id='popoverq3' cancelable><p>Write 4 paragraphs.</p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
+    $("<ons-popover direction='up' id='popoverq3' cancelable><p id='pop3Mood'>Write 4 paragraphs.</p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
 
     //question 4 - radio button
     var $car4 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car4content = $("<div class='quiznumber'>Q4:</div><div class='quizques'>Gender:</div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='gender' input-id='radio-1' checked></ons-radio></label><label for='radio-1' class='center'>Male</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Female</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Depends what day it is</label></ons-list-item></div>").appendTo($car4);
+    var $car4content = $("<div class='quiznumber'>Q4:</div><div class='quizques' id='q4tMood'></div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='gender' input-id='radio-1' checked></ons-radio></label><label for='radio-1' id='q4radio1Mood' class='center'></label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-2'></ons-radio></label><label for='radio-2' id='q4radio2Mood' class='center'></label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center' id='q4radio3Mood'></label></ons-list-item></div>").appendTo($car4);
+
+    
 
     //question 5 - mini carousel
     var $car5 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car5content = $("<div class='quiznumber'>Q5:</div><div class='quizques'>Mood:</div><div class='quizanswer'><ons-carousel style='height: 100px; width:90%' swipeable auto-scroll overscrollable id='quizcarousel'><ons-carousel-item style='background-color: #3B4C66;'><div style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>SAD :(</div></ons-carousel-item><ons-carousel-item style='background-color: #49BDC3;'><div style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>HAPPY :)</div></ons-carousel-item><ons-carousel-item style='background-color: #FFC300;'><div style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>LAUGHING :D</div></ons-carousel-item></ons-carousel></div>").appendTo($car5);
-
+    var $car5content = $("<div class='quiznumber'>Q5:</div><div class='quizques' id='q5tMood'></div><div class='quizanswer'><ons-carousel style='height: 100px; width:90%' swipeable auto-scroll overscrollable id='quizcarousel'><ons-carousel-item style='background-color: #3B4C66;'><div id='q5car1Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'></div></ons-carousel-item><ons-carousel-item style='background-color: #49BDC3;'><div id='q5car2Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'></div></ons-carousel-item><ons-carousel-item style='background-color: #FFC300;'><div id='q5car3Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'></div></ons-carousel-item></ons-carousel></div>").appendTo($car5);
+    
+    
+    //TODO - JSON
     //question 6 - gradient slider
     var $car6 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car6content = $("<div class='quiznumber'>Q6:</div><div class='quizques'>Happiness Today:</div><div class='quizanswer'><ons-range class='quizrangemood' min='0' max='10' step='1' style='width: 90%;' value='5'></ons-range></div>").appendTo($car6);
+    var $car6content = $("<div class='quiznumber'>Q6:</div><div class='quizques' id='q6tMood' ></div><div class='quizanswer'><ons-range class='quizrangemood' min='0' max='10' step='1' style='width: 90%;' value='5'></ons-range></div>").appendTo($car6);
 
+    //TODO - JSON
     //question 7 - slider with value (not yet functional)
     var $car7 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
     var $car7content = $("<div class='quiznumber'>Q7:</div><div class='quizques'>Blood Alcohol:</div><div class='quizanswer'><ons-range class='quizrangeBAC' min='0' max='0.5' step='0.01' style='width: 90%;' value='0.05'></ons-range><br/><br/><label class='quizlabel'>Level: 0.05</label></div>").appendTo($car7);
@@ -313,14 +329,34 @@ function showQuizMood() {
     var $footer = $("<div class='footer'></div>").appendTo($page);
 
     var $buttoncontainer = $("<div class='confieldsSubmit'></div>").appendTo($footer);
+    
     //Submit button floats with footer, shows submit alert
     var $quizMoodSubmit = $("<ons-button class='quizmoodbtn'>Submit</ons-button>").appendTo($buttoncontainer).on("click", function() {
         $alertSubmit.appendTo($page);
         $alertSubmit.show();
     });
 
+    
+    
     var $quizMoodSave = $("<ons-button class='quizmoodbtn'>Save</ons-button>").appendTo($buttoncontainer).on("click", function() {
+        var Moodq1 = $("#q1aMood").val();
+        var Moodq2 = $("#q2aMood").val();
+        var Moodq3 = $("#q3aMood").val();
+        
+        var Moodq4 = $('input[name=gender]:checked').val();
+        
+        console.log("q 1: " + Moodq1 + "q2 + " + Moodq2 + "q3 + " + Moodq3 + "q4 + " + Moodq4);
 
+        var carousel = document.getElementById('quizcarousel');
+console.log('Current item is ' + activeIndex);
+carousel.addEventListener('postchange', function(event) {
+console.log('Current item is ' + event.activeIndex);
+});
+        
+console.log('q5 ' + Moodq5);
+        
+        //To switch to a specific item the setActiveIndex(index) method is used.
+        
     });
 
     //Mini carousel in quiz
@@ -350,6 +386,39 @@ function showQuizMood() {
 
 
     $("#maincontent").html($page);
+    
+    
+    //add JSON file info to questions
+   var JSONQuestions = new Array();
+    $.getJSON('quizzes_sample2.json', function (data) {
+        JSONQuestions = data;
+    })
+    .fail(function() {
+        console.log('error: JSON not loaded'); 
+    })
+    .done(function() {
+    console.log( "JSON loaded!" );
+    console.log("result: " + JSONQuestions[0]["questions"][0]["text"]);
+    
+    $("#q1tMood").html(JSONQuestions[0]["questions"][0]["text"]);
+    $("#q2tMood").html(JSONQuestions[0]["questions"][1]["text"]);
+    $("#q3tMood").html(JSONQuestions[0]["questions"][2]["text"]);
+    $("#q4tMood").html(JSONQuestions[0]["questions"][3]["text"]);
+        
+    $("#pop1Mood").html(JSONQuestions[0]["questions"][0]["help"]);
+    $("#pop2Mood").html(JSONQuestions[0]["questions"][1]["help"]);
+    $("#pop3Mood").html(JSONQuestions[0]["questions"][2]["help"]);
+
+    $("#q4radio1Mood").html(JSONQuestions[0]["questions"][3]["options"][0]);
+    $("#q4radio2Mood").html(JSONQuestions[0]["questions"][3]["options"][1]);
+    $("#q4radio3Mood").html(JSONQuestions[0]["questions"][3]["options"][2]);
+
+    $("#q5car1Mood").html(JSONQuestions[0]["questions"][4]["options"][0] + " " + JSONQuestions[0]["questions"][4]["optionVisuals"][0]);
+    $("#q5car2Mood").html(JSONQuestions[0]["questions"][4]["options"][1] + " " + JSONQuestions[0]["questions"][4]["optionVisuals"][1]);
+    $("#q5car3Mood").html(JSONQuestions[0]["questions"][4]["options"][2] + " " + JSONQuestions[0]["questions"][4]["optionVisuals"][2]);
+
+        
+    }); 
 }
 
 

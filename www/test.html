@@ -13,7 +13,7 @@
     window.currentUsername = null;
     window.forumTopics = [];  //square brackets = array
         
-        function displayForumPage() {
+     /*   function displayForumPage() {
             for (var index = 0; index < forumTopics.length; index++) {
                 var topic = forumTopics[index];
                 $("body").append("<p>" + topic.title + " / " + topic.author + "</p>");
@@ -28,7 +28,7 @@
             //push appends to array
             forumTopics.push(newTopic);
             
-        }
+        }*/
         
         function loadForumTopics() {
             
@@ -121,12 +121,37 @@
             
         }
         
+        var allQuestions = new Array();
+    
+/*function loadQuestions() {
+    $.getJSON('quizzes_sample.json', function (data) {
+        allQuestions = data;
+    })
+    .fail(function() {
+        console.log('error: JSON not loaded'); 
+    })
+    .done(function() {
+        console.log( "JSON loaded!" );
+        console.log( "result: " + allQuestions);
+
+    });
+}
+  */      
         $(document).ready(function() {
          //createUser("Meg", "my_password", 21);
             
              // loadUser("Meg");
+               
             
-            loadForumTopics();
+            
+            $.getJSON('quizzes_sample2.json', function(data) {
+                
+                var bacon = quizlist;
+                console.log(bacon);      
+
+               
+})
+            //loadQuestions();
         });
     
     </script>
@@ -135,6 +160,8 @@
 <body>
 
     <div id='maincontent'></div>
+        <div id='demo'></div>
+
     
 
 
