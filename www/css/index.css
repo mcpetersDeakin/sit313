@@ -155,6 +155,11 @@ ons-input input {
     -webkit-animation:fade 3000ms infinite;
 }
 
+#welcome {
+	color: white;
+	padding-top:10px;
+	padding-left:15px;  
+}
 
 .logo {
     background-image: url('../img/logo.png');

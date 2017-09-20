@@ -60,6 +60,7 @@ FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
 
  window.baseURl = "http://introtoapps.com/datastore.php?appid=215123769";
     window.currentUsername = null;
+var displayName = '';
 
 //snippet from onsen to make popovers work
 //https://onsen.io/v2/api/js/ons-popover.html
@@ -155,11 +156,11 @@ function showLogin() {
             alert('pls enter pw');
         } else 
             
-            loadUser(userinput);
+            loadUser(userinput, pwinput);
         
     });
     
-     function loadUser(username) {
+     function loadUser(username, password) {
             
             //inputs such as username
             var url = baseURl + "&action=load&objectid=" + encodeURIComponent(username) + ".user";
@@ -172,9 +173,18 @@ function showLogin() {
                 cache: false
             })
             //function returns - data when .done and then function {} tells what u want to do with it
+			
                 .done(function(data) {
-                
-                $("body").append(data);
+					var jdata = JSON.parse(data);
+					console.log("user= " + username + jdata.username + "password= " + password + jdata.password + jdata.name);
+                if (jdata.username == username && jdata.password == password) {
+				console.log("user + pw match");
+				displayName = jdata.name;
+				
+				showMenu();
+				} else {
+				console.log('error user doesnt exist or password is wrong.');
+				}
             
             //if request fails
             })  .fail(function (jqXHR, textStatus) {
@@ -297,22 +307,14 @@ function showSignUp() {
     alert("Passwords Don't Match");
   } else {
     console.log('validation complete');
-      createUser(suserinput, spwinput, snameinput)
+      createUser(suserinput, spwinput, snameinput);
+	  ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
+        showLogin();
   }
   }
                                                                                                     
-        ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
-        showLogin();
     }); 
                                                                                                     
-        
-    
-    
-
-    
-    
-    
-    
 
     $("<br/>").appendTo($conFields);
 
@@ -365,10 +367,12 @@ function showMenu() {
 
 
     //footer that remains in same place
-    $("<div class='footer'></div>").appendTo($page);
+    $("<div class='footer'><div id='welcome'>Hello, Unregistered.</div></div>").appendTo($page);
 
 
     $("#maincontent").html($page);
+	
+	$("#welcome").html('Hello, ' + displayName + '!');
 }
 
 /*------------------------------
@@ -638,6 +642,9 @@ function showQuizExam() {
 
 
     $("#maincontent").html($page);
+	
+	$("#welcome").html('Hello, ' + displayName + '!');
+
 
 }
 
@@ -712,6 +719,8 @@ function showQuizExamQ() {
 
 
     $("#maincontent").html($page);
+	$("#welcome").html('Hello, ' + displayName + '!');
+
 
 }
 
@@ -784,6 +793,8 @@ function showStatistics() {
 
 
     $("#maincontent").html($page);
+	$("#welcome").html('Hello, ' + displayName + '!');
+
 }
 
 
@@ -796,7 +807,7 @@ $(document).ready(function () {
 
  //Load login when document is ready
  //so users start at the login page
- showSignUp();
+ showLogin();
 
 
 });

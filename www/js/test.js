@@ -59,8 +59,8 @@ FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
 //GLOBAL:
 
  window.baseURl = "http://introtoapps.com/datastore.php?appid=215123769";
-    window.currentUsername = null;
-
+ window.currentUsername = null;
+var smd = '';
 //snippet from onsen to make popovers work
 //https://onsen.io/v2/api/js/ons-popover.html
 //if i rewrite jquery the animation does weird things so i've left it as normal js
