@@ -149,44 +149,9 @@ function showLogin() {
         var userinput = $('#username').val();
         var pwinput = $('#pw').val();
         
-        if (userinput == '') {
-            alert('pls enter user');
-        } else if (pwinput == '') {
-            alert('pls enter pw');
-        } else 
-            
-            loadUser(userinput);
+        
         
     });
-    
-     function loadUser(username) {
-            
-            //inputs such as username
-            var url = baseURl + "&action=load&objectid=" + encodeURIComponent(username) + ".user";
-            
-            console.log(url);
-            
-            //this block of code is the actual request
-            $.ajax({
-                url: url,
-                cache: false
-            })
-            //function returns - data when .done and then function {} tells what u want to do with it
-                .done(function(data) {
-                
-                $("body").append(data);
-            
-            //if request fails
-            })  .fail(function (jqXHR, textStatus) {
-                alert("Request failed: user doesnt exist" + textStatus);
-            });
-            
-        }
-    
-    
-    
-    
-    
 
     $("<br/>").appendTo($conFields);
 
@@ -201,45 +166,6 @@ function showLogin() {
 /*------------------------------
 SIGNUP PAGE
 ------------------------------*/
-
-            function createUser(_username, _password, _name) {
-            var userObject = {
-                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
-                username : _username, 
-                password : _password,
-                name : _name 
-            };
-            //data must be a string. want it to be a string of above variables ^ user, pw, age
-            //easiest way to do this is to use JSON.stringify() and JSON.parse()
-            
-            var data = JSON.stringify(userObject);
-            alert("data to be saved " + data);
-            
-            //create a url for saving
-            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
-            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
-            alert("URL: " + url);
-            
-            //this block of code is the actual request
-            $.ajax({
-                url: url,
-                cache: false
-            })
-            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
-                .done(function(data) {
-                //when successfully complete run this function
-                alert("Result from server: " + data);
-             //   $("body").append(data);
-        
-        ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
-        showLogin();
-                
-            //if request fails
-            })  .fail(function (jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
-            
-        }
 
 function showSignUp() {
     console.log("begin showSignUp()");
@@ -282,33 +208,79 @@ function showSignUp() {
         var scpwinput = $('#cpw').val();
        
         console.log('snameinput = ' + snameinput + ' suserinput = ' + suserinput + ' spwinput = ' + spwinput + ' scpwinput= ' + scpwinput);
+        
+  if(spwinput.value != scpwinput.value) {
+   alert('ur pws dont match!');
+  } else {
+    console.log('pws match');
+    //createUser(suserinput, scpwinput, 21);
+  }
         validate();
-    
+
+        
         function validate(){
             if(snameinput == '') {
-                alert('no name');
+                console.log('no name');
                
                }
             else if (suserinput == '') {
-                alert('no username');
+                console.log('no username');
                      
                      }
-  else if(spwinput != scpwinput) {
-    alert("Passwords Don't Match");
+  else if(spwinput.value != scpwinput.value) {
+    console.log("Passwords Don't Match");
   } else {
-    console.log('validation complete');
-      createUser(suserinput, spwinput, snameinput)
+   console.log('validation complete');
   }
-  }
-                                                                                                    
+}
+
+        
+        
+        
+        
+        
+
+        
         ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
         showLogin();
-    }); 
-                                                                                                    
-        
+    });
     
     
-
+            function createUser(_username, _password, _age) {
+            var userObject = {
+                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
+                username : _username, 
+                password : _password,
+                age : _age 
+            };
+            //data must be a string. want it to be a string of above variables ^ user, pw, age
+            //easiest way to do this is to use JSON.stringify() and JSON.parse()
+            
+            var data = JSON.stringify(userObject);
+            alert("data to be saved " + data);
+            
+            //create a url for saving
+            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            alert("URL: " + url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+                $("body").append(data);
+            
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
     
     
     
@@ -796,7 +768,7 @@ $(document).ready(function () {
 
  //Load login when document is ready
  //so users start at the login page
- showSignUp();
+ showQuizMood();
 
 
 });
