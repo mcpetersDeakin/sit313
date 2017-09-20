@@ -59,8 +59,9 @@ FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
 //GLOBAL:
 
  window.baseURl = "http://introtoapps.com/datastore.php?appid=215123769";
- window.currentUsername = null;
-var smd = '';
+var displayName = '';
+var currentUsername = '';
+
 //snippet from onsen to make popovers work
 //https://onsen.io/v2/api/js/ons-popover.html
 //if i rewrite jquery the animation does weird things so i've left it as normal js
@@ -149,9 +150,54 @@ function showLogin() {
         var userinput = $('#username').val();
         var pwinput = $('#pw').val();
         
-        
+        if (userinput == '') {
+            alert('pls enter user');
+        } else if (pwinput == '') {
+            alert('pls enter pw');
+        } else 
+            
+            loadUser(userinput, pwinput);
         
     });
+    
+     function loadUser(username, password) {
+            
+            //inputs such as username
+            var url = baseURl + "&action=load&objectid=" + encodeURIComponent(username) + ".user";
+            
+            console.log(url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //function returns - data when .done and then function {} tells what u want to do with it
+			
+                .done(function(data) {
+					var jdata = JSON.parse(data);
+					console.log("user= " + username + jdata.username + "password= " + password + jdata.password + jdata.name);
+                if (jdata.username == username && jdata.password == password) {
+				console.log("user + pw match");
+				displayName = jdata.name;
+				currentUsername = jdata.username;
+				
+				showMenu();
+				} else {
+				console.log('error user doesnt exist or password is wrong.');
+				}
+            
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: user doesnt exist" + textStatus);
+            });
+            
+        }
+    
+    
+    
+    
+    
 
     $("<br/>").appendTo($conFields);
 
@@ -166,6 +212,45 @@ function showLogin() {
 /*------------------------------
 SIGNUP PAGE
 ------------------------------*/
+
+            function createUser(_username, _password, _name) {
+            var userObject = {
+                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
+                username : _username, 
+                password : _password,
+                name : _name 
+            };
+            //data must be a string. want it to be a string of above variables ^ user, pw, age
+            //easiest way to do this is to use JSON.stringify() and JSON.parse()
+            
+            var data = JSON.stringify(userObject);
+            alert("data to be saved " + data);
+            
+            //create a url for saving
+            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            alert("URL: " + url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+             //   $("body").append(data);
+        
+        ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
+        showLogin();
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
 
 function showSignUp() {
     console.log("begin showSignUp()");
@@ -208,83 +293,29 @@ function showSignUp() {
         var scpwinput = $('#cpw').val();
        
         console.log('snameinput = ' + snameinput + ' suserinput = ' + suserinput + ' spwinput = ' + spwinput + ' scpwinput= ' + scpwinput);
-        
-  if(spwinput.value != scpwinput.value) {
-   alert('ur pws dont match!');
-  } else {
-    console.log('pws match');
-    //createUser(suserinput, scpwinput, 21);
-  }
         validate();
-
-        
+    
         function validate(){
             if(snameinput == '') {
-                console.log('no name');
+                alert('no name');
                
                }
             else if (suserinput == '') {
-                console.log('no username');
+                alert('no username');
                      
                      }
-  else if(spwinput.value != scpwinput.value) {
-    console.log("Passwords Don't Match");
+  else if(spwinput != scpwinput) {
+    alert("Passwords Don't Match");
   } else {
-   console.log('validation complete');
-  }
-}
-
-        
-        
-        
-        
-        
-
-        
-        ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
+    console.log('validation complete');
+      createUser(suserinput, spwinput, snameinput);
+	  ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
         showLogin();
-    });
-    
-    
-            function createUser(_username, _password, _age) {
-            var userObject = {
-                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
-                username : _username, 
-                password : _password,
-                age : _age 
-            };
-            //data must be a string. want it to be a string of above variables ^ user, pw, age
-            //easiest way to do this is to use JSON.stringify() and JSON.parse()
-            
-            var data = JSON.stringify(userObject);
-            alert("data to be saved " + data);
-            
-            //create a url for saving
-            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
-            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
-            alert("URL: " + url);
-            
-            //this block of code is the actual request
-            $.ajax({
-                url: url,
-                cache: false
-            })
-            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
-                .done(function(data) {
-                //when successfully complete run this function
-                alert("Result from server: " + data);
-                $("body").append(data);
-            
-            //if request fails
-            })  .fail(function (jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
-            
-        }
-    
-    
-    
-    
+  }
+  }
+                                                                                                    
+    }); 
+                                                                                                    
 
     $("<br/>").appendTo($conFields);
 
@@ -337,10 +368,12 @@ function showMenu() {
 
 
     //footer that remains in same place
-    $("<div class='footer'></div>").appendTo($page);
+    $("<div class='footer'><div id='welcome'>Hello, Unregistered.</div></div>").appendTo($page);
 
 
     $("#maincontent").html($page);
+	
+	$("#welcome").html('Hello, ' + displayName + '!');
 }
 
 /*------------------------------
@@ -428,10 +461,63 @@ function showQuizMood() {
 
     //Submit button floats with footer, shows submit alert
     var $quizMoodSubmit = $("<ons-button class='quizmoodbtn'>Submit</ons-button>").appendTo($buttoncontainer).on("click", function() {
-        $alertSubmit.appendTo($page);
-        $alertSubmit.show();
+        //$alertSubmit.appendTo($page);
+        //$alertSubmit.show();
+		
+		var Moodq1 = $("#q1aMood").val();
+        var Moodq2 = $("#q2aMood").val();
+        var Moodq3 = $("#q3aMood").val();
+      //  var Moodq4 = $("input[name=gender]:checked").val();
+        var Moodq6 = $("#q6rangeMood").val();
+        var Moodq7 = $("#q7rangeMood").val();
+        console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
+	
+		
     });
     
+
+
+function submitMoodQuiz(_username, _password, _name) {
+            var userObject = {
+                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
+                username : _username, 
+                password : _password,
+                name : _name 
+            };
+            //data must be a string. want it to be a string of above variables ^ user, pw, age
+            //easiest way to do this is to use JSON.stringify() and JSON.parse()
+            
+            var data = JSON.stringify(userObject);
+            alert("data to be saved " + data);
+            
+            //create a url for saving
+            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            alert("URL: " + url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+             //   $("body").append(data);
+        
+        ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
+        showLogin();
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
+
+
+
 
     //practiced q7 on codepen :
     /*
@@ -459,14 +545,6 @@ HTML:
     */
 
     var $quizMoodSave = $("<ons-button class='quizmoodbtn'>Save</ons-button>").appendTo($buttoncontainer).on("click", function() {
-        var Moodq1 = $("#q1aMood").val();
-        var Moodq2 = $("#q2aMood").val();
-        var Moodq3 = $("#q3aMood").val();
-      //  var Moodq4 = $("input[name=gender]:checked").val();
-        var Moodq6 = $("#q6rangeMood").val();
-        var Moodq7 = $("#q7rangeMood").val();
-        console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
-        
        
     //console.log(q5car.getActiveIndex());
 
@@ -610,6 +688,9 @@ function showQuizExam() {
 
 
     $("#maincontent").html($page);
+	
+	$("#welcome").html('Hello, ' + displayName + '!');
+
 
 }
 
@@ -684,6 +765,8 @@ function showQuizExamQ() {
 
 
     $("#maincontent").html($page);
+	$("#welcome").html('Hello, ' + displayName + '!');
+
 
 }
 
@@ -756,6 +839,8 @@ function showStatistics() {
 
 
     $("#maincontent").html($page);
+	$("#welcome").html('Hello, ' + displayName + '!');
+
 }
 
 
@@ -768,7 +853,7 @@ $(document).ready(function () {
 
  //Load login when document is ready
  //so users start at the login page
- showQuizMood();
+ showLogin();
 
 
 });

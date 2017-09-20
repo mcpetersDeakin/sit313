@@ -59,8 +59,8 @@ FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
 //GLOBAL:
 
  window.baseURl = "http://introtoapps.com/datastore.php?appid=215123769";
-    window.currentUsername = null;
 var displayName = '';
+var currentUsername = '';
 
 //snippet from onsen to make popovers work
 //https://onsen.io/v2/api/js/ons-popover.html
@@ -180,6 +180,7 @@ function showLogin() {
                 if (jdata.username == username && jdata.password == password) {
 				console.log("user + pw match");
 				displayName = jdata.name;
+				currentUsername = jdata.username;
 				
 				showMenu();
 				} else {
@@ -460,10 +461,68 @@ function showQuizMood() {
 
     //Submit button floats with footer, shows submit alert
     var $quizMoodSubmit = $("<ons-button class='quizmoodbtn'>Submit</ons-button>").appendTo($buttoncontainer).on("click", function() {
-        $alertSubmit.appendTo($page);
-        $alertSubmit.show();
+        //$alertSubmit.appendTo($page);
+        //$alertSubmit.show();
+		
+		var Moodq1 = $("#q1aMood").val();
+        var Moodq2 = $("#q2aMood").val();
+        var Moodq3 = $("#q3aMood").val();
+      //  var Moodq4 = $("input[name=gender]:checked").val();
+        var Moodq6 = $("#q6rangeMood").val();
+        var Moodq7 = $("#q7rangeMood").val();
+        console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
+	   
+        var answers = [Moodq1, Moodq2, Moodq3, Moodq6, Moodq7];
+        
+        console.log('array of answers = ' + answers);
+        submitMoodQuiz(answers);
+		
     });
     
+
+
+function submitMoodQuiz(_answers) {
+/*            var answers = 
+                [                
+                q1 : _q1, 
+                q2 : _q2,
+                q3 : _q3,
+                q6 : _q6,
+                q7 : _q7 
+                ]; */
+    
+            //data must be a string. want it to be a string of above variables ^ user, pw, age
+            //easiest way to do this is to use JSON.stringify() and JSON.parse()
+            
+            var data = JSON.stringify(_answers);
+            alert("data to be saved " + data);
+            
+            //create a url for saving
+            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
+            var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".answers&data=" + encodeURIComponent(data);
+            alert("URL: " + url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+             //   $("body").append(data);
+        
+        
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
+
+
+
 
     //practiced q7 on codepen :
     /*
@@ -491,14 +550,6 @@ HTML:
     */
 
     var $quizMoodSave = $("<ons-button class='quizmoodbtn'>Save</ons-button>").appendTo($buttoncontainer).on("click", function() {
-        var Moodq1 = $("#q1aMood").val();
-        var Moodq2 = $("#q2aMood").val();
-        var Moodq3 = $("#q3aMood").val();
-      //  var Moodq4 = $("input[name=gender]:checked").val();
-        var Moodq6 = $("#q6rangeMood").val();
-        var Moodq7 = $("#q7rangeMood").val();
-        console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
-        
        
     //console.log(q5car.getActiveIndex());
 
