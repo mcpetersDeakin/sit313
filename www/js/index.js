@@ -229,9 +229,28 @@ SIGNUP PAGE
             //create a url for saving
             //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
             var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            
+                
             alert("URL: " + url);
             
             //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+             //   $("body").append(data);
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".MoodQuizAnswers&data=test[]"
+                
             $.ajax({
                 url: url,
                 cache: false
@@ -248,8 +267,7 @@ SIGNUP PAGE
             //if request fails
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: " + textStatus);
-            });
-            
+            });    
         }
 
 function showSignUp() {
@@ -482,15 +500,6 @@ function showQuizMood() {
 
 
 function submitMoodQuiz(_answers) {
-/*            var answers = 
-                [                
-                q1 : _q1, 
-                q2 : _q2,
-                q3 : _q3,
-                q6 : _q6,
-                q7 : _q7 
-                ]; */
-    
             //data must be a string. want it to be a string of above variables ^ user, pw, age
             //easiest way to do this is to use JSON.stringify() and JSON.parse()
             
@@ -498,8 +507,10 @@ function submitMoodQuiz(_answers) {
             alert("data to be saved " + data);
             
             //create a url for saving
-            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
-            var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".answers&data=" + encodeURIComponent(data);
+            //appends each answers as a new array.
+            //TODO; FIX ARRAYS APPENDING INSIDE ARRAY
+            var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".quizanswers&data=" + encodeURIComponent(data);
+    
             alert("URL: " + url);
             
             //this block of code is the actual request
@@ -511,6 +522,7 @@ function submitMoodQuiz(_answers) {
                 .done(function(data) {
                 //when successfully complete run this function
                 alert("Result from server: " + data);
+                showMenu();
              //   $("body").append(data);
         
         
@@ -858,7 +870,7 @@ $(document).ready(function () {
 
  //Load login when document is ready
  //so users start at the login page
- showLogin();
+ showSignUp();
 
 
 });
