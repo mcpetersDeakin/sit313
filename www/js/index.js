@@ -150,6 +150,7 @@ function showLogin() {
 
 
     //Login button goes to Menu screen
+    //http://www.webtoolkit.info/javascript_sha256.html SHA256
     var $btnLogin = $("<ons-button class='buttoncs'>Login</ons-button>").appendTo($conFields).on("click", function(){
 
         var userinput = $('#username').val();
@@ -160,8 +161,8 @@ function showLogin() {
         } else if (pwinput == '') {
             alert('pls enter pw');
         } else 
-            
-            loadUser(userinput, pwinput);
+           var shapwinput = SHA256(pwinput)
+            loadUser(userinput, shapwinput);
         
     });
     
@@ -331,7 +332,6 @@ function showSignUp() {
         var spwinput = $('#pw').val();
         var scpwinput = $('#cpw').val();
        
-        console.log('snameinput = ' + snameinput + ' suserinput = ' + suserinput + ' spwinput = ' + spwinput + ' scpwinput= ' + scpwinput);
         validate();
     
         function validate(){
@@ -347,7 +347,9 @@ function showSignUp() {
     alert("Passwords Don't Match");
   } else {
     console.log('validation complete');
-      createUser(suserinput, spwinput, snameinput);
+      
+      var shaspwinput = SHA256(spwinput);
+      createUser(suserinput, shaspwinput, snameinput);
 	  ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
         showLogin();
   }
@@ -893,49 +895,116 @@ STATISTICS/RESULTS PAGE
                 var jtemp = JSON.parse(temp);
                 console.log("jtemp =" + jtemp);
                  console.log("jdata[jtemp][0]" + jdata[jtemp][0]);
-                console.log("jdata[jtemp][1]" + jdata[jtemp][1]);
+                console.log("jdata[jtemp][3]" + jdata[jtemp][3]);
                 var newContent = '';
         
-        
-                        console.log("new content init");
-
-        newContent += "<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input type='text' id='q3aExam'  placeholder='Enter your answer.'></ons-input><div class='break'></div></div></ons-input><div class='break'></div></div>";
-        
                 
-            //    $('input[name=q3aExam]').val('000000');
-
-     //   $('input.q3aExam').val(jdata[jtemp][0]);
-  
-                console.log("q3exam init");
-      
- //   $('input[name=q3aExam]').val('000000');
-   
-         //   $('#q3aExam').val('xxx');
-
-                console.log("after q3exam");
-
-                
-//        $("#q3aExam").val(jdata[jtemp][0]);
-        if(jdata[jtemp][0] == 'Canberra' || jdata[jtemp][0] == 'canberra'){
-           
-            console.log('q3 = Canberra is true.');
-            
+                var marks = 0;
+        //add content to page
+        newContent += "<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input disabled='true' type='text' id='q3aExam'  placeholder='Enter your answer.'></ons-input><div class='break'></div></div></ons-input><div class='break'></div></div>";
+        
+      //validate q3
+        if(jdata[jtemp][0] == 'Canberra'){
+                       
             newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
-           }        
+            marks += 5;
+           }
         else {
-             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Canberra. </span></div>";
+             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Canberra </span></div>";
         }
-       
-                console.log("adding quiz data to displayExamStats"); document.getElementById('addedcontent').innerHTML = newContent;
-                  $("#q3aExam").val(jdata[jtemp][0]);
+                
+        //add 
+        newContent += "<div class='quiznumber'>Q4:</div><div class='quizques'>What is the largest state in Australia?</div><div class='quizanswer'><ons-input id='q4aExam' disabled='true' placeholder='Enter your answer.'></ons-input><br/><div class='break'></div></div>";
 
+                
+          //validate q4
+        if(jdata[jtemp][1] == 'Western Australia' || jdata[jtemp][1] == 'WA'){
+                       
+            newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
+            marks += 5;
+
+           }
+        else {
+             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: WA or Western Australia </span></div>";
+        }            
+       
+                
+        //add
+    newContent += "<div class='quiznumber'>Q5:</div><div class='quizques'>What is the capital of Victoria?</div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio disabled='true' name='capitalaus' id='Sydney' value='Sydney' input-id='radio-1'></ons-radio></label><label for='radio-1' class='center'>Sydney</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio id='Brisbane' value='Brisbane' disabled='true' name='capitalaus' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Brisbane</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio id='Melbourne' value='Melbourne' disabled='true' name='capitalaus' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Melbourne</label></ons-list-item><div class='break'></div></div>";
+                
+
+          //validate q5
+        if(jdata[jtemp][2] == 'Melbourne'){
+                       
+            newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
+            marks += 5;
+
+           }
+        else {
+             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Melbourne </span></div>";
+        }
         
-        
+        //add
+                
+        newContent += "<div class='quiznumber'>Q6:</div><div class='quizques'>Which are the territories of Australia?</div><div class='quizanswer'><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='ACT' value='ACT' input-id='check-1'></ons-checkbox></label><label for='check-1' class='center'>ACT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='NSW' value='NSW' input-id='check-2'></ons-checkbox></label><label for='check-2' class='center'>NSW</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='NT' value='NT' input-id='check-3'></ons-checkbox></label><label for='check-3' class='center'>NT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='QLD' value='QLD' input-id='check-4'></ons-checkbox></label><label for='check-4' class='center'>QLD</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='SA' value='SA' input-id='check-5'></ons-checkbox></label><label for='check-5' class='center'>SA</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='TAS' value='TAS' input-id='check-6'></ons-checkbox></label><label for='check-6' class='center'>TAS</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='VIC' value='VIC' input-id='check-7'></ons-checkbox></label><label for='check-7' class='center'>VIC</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' disabled='true' id='WA' value='WA' input-id='check-8'></ons-checkbox></label><label for='check-8' class='center'>WA</label></ons-list-item></div><div class='break'></div>"        
+                
+        //validate q6        
+        if(jdata[jtemp][3].length == 2){
+                       console.log("length == 2");
+          if(jdata[jtemp][3][0] == 'ACT' && jdata[jtemp][3][1] == 'NT'){
+                                     console.log("== act and == nt");
+
+               newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
+               marks += 5;
+
+             }
+            else {
+                        console.log("either act or nt isnt selected");
+
+                newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: ACT and NT </span></div>";
+            }
+           }
+        else {
+                                   console.log("else; incorrect");
+             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: ACT and NT </span></div>";
+        }            
+                
+                
+                //finishing adding content
+                document.getElementById('addedcontent').innerHTML = newContent;
+                
+                //add users input from quiz to disabled ver.
+                $("#q3aExam").val(jdata[jtemp][0]);
+                $("#q4aExam").val(jdata[jtemp][1]);
+                document.getElementById(jdata[jtemp][2]).checked = true;
+                countCheck = 1;
+                for (var m = 0; m < jdata[jtemp][3].length; m++) {        
+                    document.getElementById(jdata[jtemp][3][m]).checked = true;
+                    countCheck ++; 
+                }
+                
             //if request fails
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: " + textStatus);
             });
+        
+         /*  //add marks to database
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".marks&data=%5B%5D"
             
+            $.ajax({
+                url: url,
+                cache: false
+            })
+
+                .done(function(data) {
+                alert("Result from server: " + data);
+
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            */
         }
 
 
@@ -967,46 +1036,15 @@ function showDetailResults() {
     $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
 
 
-    //Text based on results (not yet functional)
+    //Text based on results
     $("<div class='quiznumber'>Well done, Name! <br/><span class='resultspercent'> 85% </span></div>").appendTo($page);
-
-
-    //break for spacing
     $("<div class='break'></div>").appendTo($page);
-
-
-    //Recorded answers heading
     $("<div class='quiznumber'>Submitted answers:</div><div id='addedcontent'></div>").appendTo($page);
-
-    
 
 
     getExamAnswers();
-    
 
-    
-    //question 3 - copied from exam question but disabled version
-  
-    
-    /*$("<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input  disabled='true' placeholder='Enter your answer.'></ons-input><div class='break'></div></div><ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span><br/>80% of students answered this question correctly.</div>").appendTo($page);*/
-
-
-    //question 4 - copied from exam question but disabled version
-    $("<div class='quiznumber'>Q4:</div><div class='quizques'>What is the largest state in Australia?</div><div class='quizanswer'><ons-input disabled='true' placeholder='Enter your answer.'></ons-input><br/><div class='break'></div></div><ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span><br/>80% of students answered this question correctly.</div>").appendTo($page);
-
-
-    //question 5 - copied from exam question but disabled version
-    $("<div class='quiznumber'>Q5:</div><div class='quizques'>What is the capital of Victoria?</div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio disabled='true' name='capitalaus' input-id='radio-1' checked></ons-radio></label><label for='radio-1' class='center'>Sydney</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio disabled='true' name='capitalaus' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Brisbane</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio disabled='true' name='capitalaus' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Melbourne</label></ons-list-item><div class='break'></div></div><ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Melbourne. </span><br/>65% of students answered this question correctly.</div>").appendTo($page);
-
-
-    //question 6 - copied from exam question but disabled version
-    $("<div class='quiznumber'>Q6:</div><div class='quizques'>Which are the territories of Australia?</div><div class='quizanswer'>  <ons-list-item tappable><label class='left'><ons-checkbox checked disabled='true' input-id='check-1'></ons-checkbox></label><label for='check-1' class='center'>ACT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' input-id='check-2'></ons-checkbox></label><label for='check-2' class='center'>NSW</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' checked input-id='check-3'></ons-checkbox></label><label for='check-3' class='center'>NT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' input-id='check-4'></ons-checkbox></label><label for='check-4' class='center'>QLD</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' input-id='check-5'></ons-checkbox></label><label for='check-5' class='center'>SA</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' input-id='check-6'></ons-checkbox></label><label for='check-6' class='center'>TAS</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' input-id='check-7'></ons-checkbox></label><label for='check-7' class='center'>VIC</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox disabled='true' input-id='check-8'></ons-checkbox></label><label for='check-8' class='center'>WA</label></ons-list-item></div><div class='break'></div><ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span><br/>80% of students answered this question correctly.</div>").appendTo($page);
-
-    //break for spacing
     $("<div class='break'></div><div class='break'></div><div class='break'></div>").appendTo($page);
-
-
-    //footer that remains in same place
     $("<div class='footer'></div>").appendTo($page);
 
 
@@ -1150,37 +1188,7 @@ DOCUMENT.READY FUNCTION
 $(document).ready(function () {
 
  //Load login when document is ready
- //so users start at the login page
  showLogin();
 
-    /*
-    function test() {
-            
-            //inputs such as username
-            var url = baseURl + "&action=load&objectid=user4.answersMood";
-            
-            console.log(url);
-            
-            //this block of code is the actual request
-            $.ajax({
-                url: url,
-                cache: false
-            })
-            //function returns - data when .done and then function {} tells what u want to do with it
-			
-                .done(function(data) {
-					var jdata = JSON.parse(data);
-                console.log("parsed JSON data");
-					console.log("try; " + jdata[0][1]);
-            //first array will always be [0]
-                
-            //if request fails
-            })  .fail(function (jqXHR, textStatus) {
-                alert("Request failed: user doesnt exist" + textStatus);
-            });
-            
-        }
-   test() */
-     
 
 });
