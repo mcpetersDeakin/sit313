@@ -62,6 +62,7 @@ FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
 var displayName = '';
 var currentUsername = '';
 
+
 //snippet from onsen to make popovers work
 //https://onsen.io/v2/api/js/ons-popover.html
 //if i rewrite jquery the animation does weird things so i've left it as normal js
@@ -229,18 +230,52 @@ SIGNUP PAGE
             //create a url for saving
             //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
             var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            
+                
             alert("URL: " + url);
             
-            //this block of code is the actual request
+            //Send user data - pw/name/username to server
             $.ajax({
                 url: url,
                 cache: false
             })
-            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
+    
+                .done(function(data) {
+                alert("Result from server: " + data);
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+                //initialize empty array for answersExam
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".answersExam&data=%5B%5D"
+            
+            $.ajax({
+                url: url,
+                cache: false
+            })
+
+                .done(function(data) {
+                alert("Result from server: " + data);
+
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+                
+            //initialize empty array for answersMood        
+            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".answersMood&data=%5B%5D"
+                     
+            $.ajax({
+                url: url,
+                cache: false
+            })
+           
                 .done(function(data) {
                 //when successfully complete run this function
                 alert("Result from server: " + data);
-             //   $("body").append(data);
         
         ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
         showLogin();
@@ -248,9 +283,9 @@ SIGNUP PAGE
             //if request fails
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: " + textStatus);
-            });
-            
+            });    
         }
+
 
 function showSignUp() {
     console.log("begin showSignUp()");
@@ -360,11 +395,16 @@ function showMenu() {
         showQuizMood(); });
     var $onsListExam = $("<ons-list-item tappable  class='quizlistitem'></ons-list-item>").appendTo($onsList).on("click", function() {
         showQuizExam(); });
+    var $onsListResults = $("<ons-list-item tappable  class='quizlistitem'></ons-list-item>").appendTo($onsList).on("click", function() {
+        showResults(); });
+    
     //append text to list title/subtitle
     $("<span class='list-item__title'>Mood Quiz</span>").appendTo($onsListMood);
     $("<span class='list-item__subtitle'>How are you feeling today?</span>").appendTo($onsListMood);
     $("<span class='list-item__title'>Exam Quiz</span>").appendTo($onsListExam);
     $("<span class='list-item__subtitle'>Test your knowledge!</span>").appendTo($onsListExam);
+    $("<span class='list-item__title'>View Results</span>").appendTo($onsListResults);
+    $("<span class='list-item__subtitle'>View your results for completed quizzes!</span>").appendTo($onsListResults);
 
 
     //footer that remains in same place
@@ -431,10 +471,10 @@ function showQuizMood() {
     $("<ons-popover direction='up' id='popoverq3' cancelable><p id='pop3Mood'>Write 4 paragraphs.</p><p><ons-button class='buttoncs2' onclick='hidePopover()'>Close</ons-button></p></ons-popover>").appendTo($page);
 
     //question 4 - radio button
+    // 0 = male, 1 = female, 3 = depends
     var $car4 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car4content = $("<div class='quiznumber'>Q4:</div><div class='quizques' id='q4tMood'></div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='gender' input-id='radio-1' checked></ons-radio></label><label for='radio-1' id='q4radio1Mood' class='center'></label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-2'></ons-radio></label><label for='radio-2' id='q4radio2Mood' class='center'></label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center' id='q4radio3Mood'></label></ons-list-item></div>").appendTo($car4);
+    var $car4content = $("<div class='quiznumber'>Q4:</div><div class='quizques' id='q4tMood'></div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='gender' value ='0' input-id='radio-1' checked></ons-radio></label><label for='radio-1' id='q4radio1Mood' class='center'></label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' value='1' input-id='radio-2'></ons-radio></label><label for='radio-2' id='q4radio2Mood' class='center'></label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='gender' value='2' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center' id='q4radio3Mood'></label></ons-list-item></div>").appendTo($car4);
 
-    
 
     //question 5 - mini carousel
     var $car5 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
@@ -468,47 +508,42 @@ function showQuizMood() {
         var Moodq2 = $("#q2aMood").val();
         var Moodq3 = $("#q3aMood").val();
       //  var Moodq4 = $("input[name=gender]:checked").val();
+        var Moodq4 = $("input[type='radio'][name='gender']:checked").val();
         var Moodq6 = $("#q6rangeMood").val();
         var Moodq7 = $("#q7rangeMood").val();
-        console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
-	
+       
+        console.log("q4 = " + Moodq4);
+        // console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
+	   
+        var answers = [Moodq1, Moodq2, Moodq3, Moodq6, Moodq7];
+        
+        console.log('array of answers = ' + answers);
+       // submitMoodQuiz(answers);
 		
     });
     
 
 
-function submitMoodQuiz(_username, _password, _name) {
-            var userObject = {
-                //black text is whatever is inside username box - user's data. dont use = in objects, use a colon and use commas at end except the last one.
-                username : _username, 
-                password : _password,
-                name : _name 
-            };
-            //data must be a string. want it to be a string of above variables ^ user, pw, age
-            //easiest way to do this is to use JSON.stringify() and JSON.parse()
-            
-            var data = JSON.stringify(userObject);
+function submitMoodQuiz(_answers) {
+            var data = JSON.stringify(_answers);
             alert("data to be saved " + data);
             
-            //create a url for saving
-            //always have & symbol before variables except the first one which is a ? ie. .php?appid=123&user=meg
-            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".user&data=" + encodeURIComponent(data);
+            //appends each answers as a new array
+        var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".answersMood&data=" + encodeURIComponent(data);
+
+    
             alert("URL: " + url);
             
-            //this block of code is the actual request
             $.ajax({
                 url: url,
                 cache: false
             })
-            //note: data below has nothing to do with var data = JSON.stringify, different scope bc opened up curly brackets.
                 .done(function(data) {
                 //when successfully complete run this function
                 alert("Result from server: " + data);
-             //   $("body").append(data);
+                showMenu();
         
-        ons.notification.toast({message: 'Sign up successful, please log in.', timeout: 3000});
-        showLogin();
-                
+        
             //if request fails
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: " + textStatus);
@@ -677,7 +712,7 @@ function showQuizExam() {
     var $footer = $("<div class='footer'></div>").appendTo($page);
 
     var $buttoncontainer = $("<div class='confieldsSubmit'></div>").appendTo($footer);
-    //Submit button floats with footer, shows submit alert
+    //Save button floats with footer, 
     var $quizMoodSave = $("<ons-button class='quizmoodbtn'>Save</ons-button>").appendTo($buttoncontainer).on("click", function() {
     });
 
@@ -729,19 +764,20 @@ function showQuizExamQ() {
 
 
     //question 3 - input text
-    $("<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input  placeholder='Enter your answer.'></ons-input><div class='break'></div></div>").appendTo($page);
+    $("<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input id='q3aExam' placeholder='Enter your answer.'></ons-input><div class='break'></div></div>").appendTo($page);
 
 
     //question 4 - input text
-    $("<div class='quiznumber'>Q4:</div><div class='quizques'>What is the largest state in Australia?</div><div class='quizanswer'><ons-input placeholder='Enter your answer.'></ons-input><br/><div class='break'></div></div>").appendTo($page);
+    $("<div class='quiznumber'>Q4:</div><div class='quizques'>What is the largest state in Australia?</div><div class='quizanswer'><ons-input id='q4aExam' placeholder='Enter your answer.'></ons-input><br/><div class='break'></div></div>").appendTo($page);
 
 
     //question 5 - radio button
-    $("<div class='quiznumber'>Q5:</div><div class='quizques'>What is the capital of Victoria?</div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='capitalaus' input-id='radio-1' checked></ons-radio></label><label for='radio-1' class='center'>Sydney</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='capitalaus' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Brisbane</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='capitalaus' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Melbourne</label></ons-list-item><div class='break'></div></div>").appendTo($page);
+    // 0 = sydney, 1 = brisbane, 2 = melbourne
+    $("<div class='quiznumber'>Q5:</div><div class='quizques'>What is the capital of Victoria?</div><div class='quizanswer'><ons-list-item  tappable><label class='left'><ons-radio name='capitalaus' value='Sydney' input-id='radio-1' checked></ons-radio></label><label for='radio-1' class='center'>Sydney</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='capitalaus' value='Brisbane' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Brisbane</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio name='capitalaus' value='Melbourne' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Melbourne</label></ons-list-item><div class='break'></div></div>").appendTo($page);
 
-
+//values "ACT","NSW","NT","QLD","SA","TAS","VIC","WA"
     //question 6 - multichoice checkbox button
-    $("<div class='quiznumber'>Q6:</div><div class='quizques'>Which are the territories of Australia?</div><div class='quizanswer'>  <ons-list-item tappable><label class='left'><ons-checkbox input-id='check-1'></ons-checkbox></label><label for='check-1' class='center'>ACT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-2'></ons-checkbox></label><label for='check-2' class='center'>NSW</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-3'></ons-checkbox></label><label for='check-3' class='center'>NT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-4'></ons-checkbox></label><label for='check-4' class='center'>QLD</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-5'></ons-checkbox></label><label for='check-5' class='center'>SA</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-6'></ons-checkbox></label><label for='check-6' class='center'>TAS</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-7'></ons-checkbox></label><label for='check-7' class='center'>VIC</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox input-id='check-8'></ons-checkbox></label><label for='check-8' class='center'>WA</label></ons-list-item></div>").appendTo($page);
+    $("<div class='quiznumber'>Q6:</div><div class='quizques'>Which are the territories of Australia?</div><div class='quizanswer'>  <ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='ACT' input-id='check-1'></ons-checkbox></label><label for='check-1' class='center'>ACT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='NSW' input-id='check-2'></ons-checkbox></label><label for='check-2' class='center'>NSW</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='NT' input-id='check-3'></ons-checkbox></label><label for='check-3' class='center'>NT</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='QLD' input-id='check-4'></ons-checkbox></label><label for='check-4' class='center'>QLD</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='SA' input-id='check-5'></ons-checkbox></label><label for='check-5' class='center'>SA</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='TAS' input-id='check-6'></ons-checkbox></label><label for='check-6' class='center'>TAS</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='VIC' input-id='check-7'></ons-checkbox></label><label for='check-7' class='center'>VIC</label></ons-list-item><ons-list-item tappable><label class='left'><ons-checkbox name='terraus' value='WA' input-id='check-8'></ons-checkbox></label><label for='check-8' class='center'>WA</label></ons-list-item></div>").appendTo($page);
     //breaks for page spacing
     $("<div class='break'></div><div class='break'></div><div class='break'></div><div class='break'></div>").appendTo($page);
 
@@ -758,9 +794,64 @@ function showQuizExamQ() {
 
     });
     var $quizMoodSubmit = $("<ons-button class='quizmoodbtn'>Submit</ons-button>").appendTo($buttoncontainer).on("click", function() {
-        $alertSubmit.appendTo($page);
-        $alertSubmit.show();
+      //  $alertSubmit.appendTo($page);
+    //    $alertSubmit.show();
+		
+		var Examq3 = $("#q3aExam").val();
+        var Examq4 = $("#q4aExam").val();
+        var Examq5 = $("input[type='radio'][name='capitalaus']:checked").val();
+        var Examq6 = [];
+
+        $('input[name="terraus"]:checked').each(function() {
+            
+            Examq6.push($(this).val());
+
+          //  var Examq6 = this.value;
+            console.log('q6 = ' + Examq6); 
+});
+            
+            console.log('q6 outside of func = ' + Examq6); 
+            console.log('q3 = ' + Examq3); 
+            console.log('q4 = ' + Examq4); 
+            console.log('q5 = ' + Examq5); 
+
+	   
+        var answers = [Examq3, Examq4, Examq5, Examq6];
+        
+        console.log('array of answers = ' + answers);
+       submitExamQuiz(answers);
+		
     });
+    
+
+
+function submitExamQuiz(_answers) {
+            var data = JSON.stringify(_answers);
+            alert("data to be saved " + data);
+            
+            //appends each answers as a new array
+        var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".answersExam&data=" + encodeURIComponent(data);
+
+    
+            alert("URL: " + url);
+            
+            $.ajax({
+                url: url,
+                cache: false
+            })
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+                showMenu();
+        
+        
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        } 
+        
 
 
 
@@ -843,6 +934,63 @@ function showStatistics() {
 
 }
 
+/*------------------------------
+RESULTS MENU PAGE
+------------------------------*/
+function showResults() {
+    console.log("begin showResults()");
+
+    //everything wrapped in an ons-page tag
+    var $page = $("<ons-page></ons-page>");
+
+
+    //toolbar - consists of heading(center), left(logout icon button), right(logo icon)
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar);
+    $("<span class='menu'>Results</span>").appendTo($tbcenter);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar);
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar);
+    //left button to show alert
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+        $alertLogout.appendTo($page);
+        $alertLogout.show();
+        });;
+    //icons for toolbar
+    $("<ons-icon class='myicon'></ons-icon>").appendTo($tbright);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+
+    
+    
+    
+
+    //list to show the possible quiz types
+    var $onsList = $("<ons-list></ons-list>").appendTo($page);
+    //quiz buttons - mood + exam
+    var $onsListMood = $("<ons-list-item tappable class='quizlistitem'></ons-list-item>").appendTo($onsList).on("click", function() {
+        showQuizMood(); });
+    var $onsListExam = $("<ons-list-item tappable  class='quizlistitem'></ons-list-item>").appendTo($onsList).on("click", function() {
+        showQuizExam(); });
+    var $onsListResults = $("<ons-list-item tappable  class='quizlistitem'></ons-list-item>").appendTo($onsList).on("click", function() {
+        showResults(); });
+    
+    //append text to list title/subtitle
+    $("<span class='list-item__title'>Mood Quiz</span>").appendTo($onsListMood);
+    $("<span class='list-item__subtitle'>How are you feeling today?</span>").appendTo($onsListMood);
+    $("<span class='list-item__title'>Exam Quiz</span>").appendTo($onsListExam);
+    $("<span class='list-item__subtitle'>Test your knowledge!</span>").appendTo($onsListExam);
+    $("<span class='list-item__title'>View Results</span>").appendTo($onsListResults);
+    $("<span class='list-item__subtitle'>View your results for completed quizzes!</span>").appendTo($onsListResults);
+
+
+    //footer that remains in same place
+    $("<div class='footer'><div id='welcome'>Hello, Unregistered.</div></div>").appendTo($page);
+
+
+    $("#maincontent").html($page);
+	
+	$("#welcome").html('Hello, ' + displayName + '!');
+}
+
 
 
 /*-----------------------
@@ -855,5 +1003,34 @@ $(document).ready(function () {
  //so users start at the login page
  showLogin();
 
+    /*
+    function test() {
+            
+            //inputs such as username
+            var url = baseURl + "&action=load&objectid=user4.answersMood";
+            
+            console.log(url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //function returns - data when .done and then function {} tells what u want to do with it
+			
+                .done(function(data) {
+					var jdata = JSON.parse(data);
+                console.log("parsed JSON data");
+					console.log("try; " + jdata[0][1]);
+            //first array will always be [0]
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: user doesnt exist" + textStatus);
+            });
+            
+        }
+   test() */
+     
 
 });
