@@ -122,6 +122,9 @@ LOGIN PAGE
 ------------------------------*/
 
 function showLogin() {
+    //clear local storage when logged out.
+    localStorage.clear(); 
+
     console.log("begin showLogin()");
 
 
@@ -866,6 +869,75 @@ function submitExamQuiz(_answers) {
 /*------------------------------
 STATISTICS/RESULTS PAGE
 ------------------------------*/
+    function getExamAnswers() {
+           // var data = JSON.stringify(_answers);
+        //    alert("data to be saved " + data);
+            
+            //appends each answers as a new array
+        var url = baseURl + "&action=load&objectid=" + encodeURIComponent(currentUsername) + ".answersExam";
+
+    
+            alert("URL: " + url);
+            
+            $.ajax({
+                url: url,
+                cache: false
+            })
+                .done(function(data) {
+                var jdata = JSON.parse(data);
+               
+                console.log("jdata[0]= " + jdata[0]);
+                var temp = storage.getItem("resultref");
+                console.log("temp/result ref = " + temp);
+                
+                var jtemp = JSON.parse(temp);
+                console.log("jtemp =" + jtemp);
+                 console.log("jdata[jtemp][0]" + jdata[jtemp][0]);
+                console.log("jdata[jtemp][1]" + jdata[jtemp][1]);
+                var newContent = '';
+        
+        
+                        console.log("new content init");
+
+        newContent += "<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input type='text' id='q3aExam'  placeholder='Enter your answer.'></ons-input><div class='break'></div></div></ons-input><div class='break'></div></div>";
+        
+                
+            //    $('input[name=q3aExam]').val('000000');
+
+     //   $('input.q3aExam').val(jdata[jtemp][0]);
+  
+                console.log("q3exam init");
+      
+ //   $('input[name=q3aExam]').val('000000');
+   
+         //   $('#q3aExam').val('xxx');
+
+                console.log("after q3exam");
+
+                
+//        $("#q3aExam").val(jdata[jtemp][0]);
+        if(jdata[jtemp][0] == 'Canberra' || jdata[jtemp][0] == 'canberra'){
+           
+            console.log('q3 = Canberra is true.');
+            
+            newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
+           }        
+        else {
+             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Canberra. </span></div>";
+        }
+       
+                console.log("adding quiz data to displayExamStats"); document.getElementById('addedcontent').innerHTML = newContent;
+                  $("#q3aExam").val(jdata[jtemp][0]);
+
+        
+        
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
+
 
 function showDetailResults() {
     console.log("begin showDetailResults");
@@ -907,70 +979,11 @@ function showDetailResults() {
     $("<div class='quiznumber'>Submitted answers:</div><div id='addedcontent'></div>").appendTo($page);
 
     
-    function getExamAnswers() {
-           // var data = JSON.stringify(_answers);
-        //    alert("data to be saved " + data);
-            
-            //appends each answers as a new array
-        var url = baseURl + "&action=load&objectid=" + encodeURIComponent(currentUsername) + ".answersExam";
 
-    
-            alert("URL: " + url);
-            
-            $.ajax({
-                url: url,
-                cache: false
-            })
-                .done(function(data) {
-                var jdata = JSON.parse(data);
-                console.log("all data loaded= " + jdata);
-            
-                var temp = storage.getItem("resultref");
-                var jtemp = JSON.parse(temp);
-                
-                var newContent = '';
-        
-        
-        
-        newContent += "<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input type='text' id='q3aExam'  placeholder='Enter your answer.'></ons-input><div class='break'></div></div></ons-input><div class='break'></div></div>";
-        
-                
-            //    $('input[name=q3aExam]').val('000000');
-
-     //   $('input.q3aExam').val(jdata[jtemp][0]);
-  
-       //   $("#q3aExam").val('ALUHA AKBAR');
-      
- //   $('input[name=q3aExam]').val('000000');
-   
-         //   $('#q3aExam').val('xxx');
-
-
-                
-//        $("#q3aExam").val(jdata[jtemp][0]);
-          document.getElementById('q3aExam').value='text to be displayed' ;             
-        if(jdata[jtemp][0] == 'Canberra'){
-           
-            console.log('q3 = Canberra is true.');
-            
-            newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
-           }        
-        else {
-             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Canberra. </span></div>";
-        }
-       
-                console.log("adding quiz data to displayExamStats"); document.getElementById('addedcontent').innerHTML = newContent;
-        
-        
-        
-            //if request fails
-            })  .fail(function (jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
-            
-        }
 
     getExamAnswers();
+    
+
     
     //question 3 - copied from exam question but disabled version
   
