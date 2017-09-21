@@ -61,6 +61,7 @@ FUNCTIONS + VARIABLES OUTSIDE OF SCREEN FUNCTIONS
  window.baseURl = "http://introtoapps.com/datastore.php?appid=215123769";
 var displayName = '';
 var currentUsername = '';
+var storage = window.localStorage;
 
 
 //snippet from onsen to make popovers work
@@ -866,8 +867,8 @@ function submitExamQuiz(_answers) {
 STATISTICS/RESULTS PAGE
 ------------------------------*/
 
-function showStatistics() {
-    console.log("begin showStatistics");
+function showDetailResults() {
+    console.log("begin showDetailResults");
 
     //everything wrapped in an ons-page tag
     //scrollable results for easy viewing
@@ -903,11 +904,78 @@ function showStatistics() {
 
 
     //Recorded answers heading
-    $("<div class='quiznumber'>Recorded answers:</div>").appendTo($page);
+    $("<div class='quiznumber'>Submitted answers:</div><div id='addedcontent'></div>").appendTo($page);
+
+    
+    function getExamAnswers() {
+           // var data = JSON.stringify(_answers);
+        //    alert("data to be saved " + data);
+            
+            //appends each answers as a new array
+        var url = baseURl + "&action=load&objectid=" + encodeURIComponent(currentUsername) + ".answersExam";
+
+    
+            alert("URL: " + url);
+            
+            $.ajax({
+                url: url,
+                cache: false
+            })
+                .done(function(data) {
+                var jdata = JSON.parse(data);
+                console.log("all data loaded= " + jdata);
+            
+                var temp = storage.getItem("resultref");
+                var jtemp = JSON.parse(temp);
+                
+                var newContent = '';
+        
+        
+        
+        newContent += "<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input type='text' id='q3aExam'  placeholder='Enter your answer.'></ons-input><div class='break'></div></div></ons-input><div class='break'></div></div>";
+        
+                
+            //    $('input[name=q3aExam]').val('000000');
+
+     //   $('input.q3aExam').val(jdata[jtemp][0]);
+  
+       //   $("#q3aExam").val('ALUHA AKBAR');
+      
+ //   $('input[name=q3aExam]').val('000000');
+   
+         //   $('#q3aExam').val('xxx');
 
 
+                
+//        $("#q3aExam").val(jdata[jtemp][0]);
+          document.getElementById('q3aExam').value='text to be displayed' ;             
+        if(jdata[jtemp][0] == 'Canberra'){
+           
+            console.log('q3 = Canberra is true.');
+            
+            newContent += "<ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span></div>";
+           }        
+        else {
+             newContent += "<ons-icon class='incorrectq' icon='fa-times'></ons-icon><div class='revques'><span class='boldtxt'>Correct answer: Canberra. </span></div>";
+        }
+       
+                console.log("adding quiz data to displayExamStats"); document.getElementById('addedcontent').innerHTML = newContent;
+        
+        
+        
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        }
+
+    getExamAnswers();
+    
     //question 3 - copied from exam question but disabled version
-    $("<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input  disabled='true' placeholder='Enter your answer.'></ons-input><div class='break'></div></div><ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span><br/>80% of students answered this question correctly.</div>").appendTo($page);
+  
+    
+    /*$("<div class='quiznumber'>Q3:</div><div class='quizques'>What is the capital of Australia?</div><div class='quizanswer'><ons-input  disabled='true' placeholder='Enter your answer.'></ons-input><div class='break'></div></div><ons-icon class='correctq' icon='fa-check'></ons-icon><div class='revques'><span class='boldtxt'>Correct! </span><br/>80% of students answered this question correctly.</div>").appendTo($page);*/
 
 
     //question 4 - copied from exam question but disabled version
@@ -958,15 +1026,35 @@ function showStatistics() {
                 var newContent = '';
                 count = 1;
                     for (var i = 0; i < jdata.length; i++) {
-                    newContent += "<ons-list-item tappable class='quizlistitem'><div class='center list-item__center'><span class='list-item__title'>Mood Quiz Attempt " + count + "</span>";
-                    newContent += "</div></ons-list-item>";
+                    newContent += "<ons-list-item tappable id='"+i+"' class='quizlistitem'><div class='center list-item__center'><div class='list-item__title'>Mood Quiz Attempt </div><span class='list-item__title'>" + count;
+                    newContent += "</span></div></ons-list-item>";
                     count ++; 
+                    
                 }
+        
                console.log("adding quiz data to html"); document.getElementById('addedcontent').innerHTML = newContent;
+        
+            var c = document.getElementsByClassName("quizlistitem"); 
+    for (var i = 0; i < c.length; i++) {
+
+    c[i].onclick = function() {
+        var temp = $(this).attr('id');
+        console.log(temp);
+        
+        
+        
+        storage.setItem("resultref" , JSON.stringify(temp));
+        showDetailResults();
+    
+    }
+    
+    }        
+                    
+                    
             } else if(jdata.length == 0) {
                 newContent2 = '';
                 console.log('else; user has no results for exam quiz');
-                 newContent2 += "<ons-list-item tappable class='quizlistitem'><div class='center list-item__center'><span class='list-item__title'>No attempts for Mood Quiz yet!</span></div></ons-list-item>";
+                 newContent2 += "<ons-list-item class='quizlistitem'><div class='center list-item__center'><span class='list-item__title'>No attempts for Mood Quiz yet!</span></div></ons-list-item>";
             console.log("adding error to log");
             document.getElementById('addedcontent').innerHTML = newContent2; }
                 
@@ -977,6 +1065,8 @@ function showStatistics() {
                 alert("Request failed: user doesnt exist" + textStatus);
             });
         }
+
+
 /*------------------------------
  RESULTS OPTION PAGE
 ------------------------------*/
@@ -1031,6 +1121,9 @@ function showResultsMenu() {
 	
 	$("#welcome").html('Hello, ' + displayName + '!');
     loadResultsMenu(); 
+    
+    
+
     
     
 }
