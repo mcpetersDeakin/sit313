@@ -1,2 +1,7 @@
 popover code snippet - https://onsen.io/v2/api/js/ons-popover.html 
 css gradient snippet by a generator- http://www.colorzilla.com/gradient-editor/
+
+
+SHA256 source code - http://www.webtoolkit.info/javascript_sha256.html
+
+Quizi logo - created by me in photoshop/illustrator
