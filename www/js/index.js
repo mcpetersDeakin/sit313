@@ -122,8 +122,6 @@ LOGIN PAGE
 ------------------------------*/
 
 function showLogin() {
-    //clear local storage when logged out.
-    localStorage.clear(); 
 
     console.log("begin showLogin()");
 
@@ -150,7 +148,11 @@ function showLogin() {
 
 
     //Login button goes to Menu screen
-    //http://www.webtoolkit.info/javascript_sha256.html SHA256
+    
+    //for hashing the password (see sha.js) used: 
+    //http://www.webtoolkit.info/javascript_sha256.html
+
+    //when login button is clicked, checks that the two passwords are the same and not equal to nothing
     var $btnLogin = $("<ons-button class='buttoncs'>Login</ons-button>").appendTo($conFields).on("click", function(){
 
         var userinput = $('#username').val();
@@ -161,24 +163,21 @@ function showLogin() {
         } else if (pwinput == '') {
             alert('pls enter pw');
         } else 
+            //hashes the password then loads into datastore
            var shapwinput = SHA256(pwinput)
             loadUser(userinput, shapwinput);
         
     });
     
+    //saves pw/name/username to .user of the current user in the data store
      function loadUser(username, password) {
             
-            //inputs such as username
             var url = baseURl + "&action=load&objectid=" + encodeURIComponent(username) + ".user";
             
-            console.log(url);
-            
-            //this block of code is the actual request
-            $.ajax({
+                $.ajax({
                 url: url,
                 cache: false
             })
-            //function returns - data when .done and then function {} tells what u want to do with it
 			
                 .done(function(data) {
 					var jdata = JSON.parse(data);
@@ -484,9 +483,8 @@ function showQuizMood() {
 
     //question 5 - mini carousel
     var $car5 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
-    var $car5content = $("<div class='quiznumber'>Q5:</div><div class='quizques' id='q5tMood'></div><div class='quizanswer'><ons-carousel var='q5car' id='bacon' style='height: 100px; width:90%' swipeable auto-scroll overscrollable><ons-carousel-item style='background-color: #3B4C66;'><div id='q5car1Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'></div></ons-carousel-item><ons-carousel-item style='background-color: #49BDC3;'><div id='q5car2Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'></div></ons-carousel-item><ons-carousel-item style='background-color: #FFC300;'><div id='q5car3Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'></div></ons-carousel-item></ons-carousel></div>").appendTo($car5);
-    
-    
+    var $car5content = $("<div class='quiznumber'>Q5:</div><div class='quizques' id='q5tMood'></div><div class='quizanswer'><ons-carousel var='q5car' id='q5aMood' style='height: 100px; width:90%' swipeable auto-scroll overscrollable><ons-carousel-item style='background-color: #3B4C66;'><div id='q5car1Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>abc</div></ons-carousel-item><ons-carousel-item style='background-color: #49BDC3;'><div id='q5car2Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>abcon</div></ons-carousel-item><ons-carousel-item style='background-color: #FFC300;'><div id='q5car3Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>baconne</div></ons-carousel-item></ons-carousel></div>").appendTo($car5);
+
     //TODO - load JSON for gradient slider!
     //question 6 - gradient slider
     var $car6 = $("<ons-carousel-item></ons-carousel-item>").appendTo($Carcontainer);
@@ -507,24 +505,23 @@ function showQuizMood() {
 
     //Submit button floats with footer, shows submit alert
     var $quizMoodSubmit = $("<ons-button class='quizmoodbtn'>Submit</ons-button>").appendTo($buttoncontainer).on("click", function() {
-        //$alertSubmit.appendTo($page);
-        //$alertSubmit.show();
-		
+
+		//get index of carousel
+        var getcarou = document.getElementById('q5aMood');
+console.log('getcarou var =' + getcarou);
+
 		var Moodq1 = $("#q1aMood").val();
         var Moodq2 = $("#q2aMood").val();
         var Moodq3 = $("#q3aMood").val();
-      //  var Moodq4 = $("input[name=gender]:checked").val();
         var Moodq4 = $("input[type='radio'][name='gender']:checked").val();
+        var Moodq5 = getcarou.getActiveIndex();
         var Moodq6 = $("#q6rangeMood").val();
         var Moodq7 = $("#q7rangeMood").val();
-       
-        console.log("q4 = " + Moodq4);
-        // console.log("q 1: " + Moodq1 + " q2: " + Moodq2 + " q3: " + Moodq3 + " q6: " + Moodq6 + " q7: " + Moodq7);
 	   
-        var answers = [Moodq1, Moodq2, Moodq3, Moodq6, Moodq7];
+        var answers = [Moodq1, Moodq2, Moodq3, Moodq4, Moodq5, Moodq6, Moodq7];
         
         console.log('array of answers = ' + answers);
-       // submitMoodQuiz(answers);
+        submitMoodQuiz(answers);
 		
     });
     
@@ -735,6 +732,34 @@ function showQuizExam() {
 
 }
 
+function submitExamQuiz(_answers) {
+            var data = JSON.stringify(_answers);
+            alert("data to be saved " + data);
+            
+            //appends each answers as a new array
+        var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".answersExam&data=" + encodeURIComponent(data);
+
+    
+            alert("URL: " + url);
+            
+            $.ajax({
+                url: url,
+                cache: false
+            })
+                .done(function(data) {
+                //when successfully complete run this function
+                alert("Result from server: " + data);
+                showMenu();
+        
+        
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: " + textStatus);
+            });
+            
+        } 
+
+
 /*------------------------------
 QUIZ PAGE - EXAM (QUESTIONS)
 ------------------------------*/
@@ -828,15 +853,23 @@ function showQuizExamQ() {
        submitExamQuiz(answers);
 		
     });
-    
+
+    $("#maincontent").html($page);
+	$("#welcome").html('Hello, ' + displayName + '!');
 
 
-function submitExamQuiz(_answers) {
-            var data = JSON.stringify(_answers);
-            alert("data to be saved " + data);
+}
+
+/*------------------------------
+STATISTICS/RESULTS PAGE
+------------------------------*/
+
+    function getMoodAnswers() {
+           // var data = JSON.stringify(_answers);
+        //    alert("data to be saved " + data);
             
             //appends each answers as a new array
-        var url = baseURl + "&action=append&objectid=" + encodeURIComponent(currentUsername) + ".answersExam&data=" + encodeURIComponent(data);
+        var url = baseURl + "&action=load&objectid=" + encodeURIComponent(currentUsername) + ".answersMood";
 
     
             alert("URL: " + url);
@@ -846,31 +879,72 @@ function submitExamQuiz(_answers) {
                 cache: false
             })
                 .done(function(data) {
-                //when successfully complete run this function
-                alert("Result from server: " + data);
-                showMenu();
+                var jdata = JSON.parse(data);
+               
+                console.log("jdata[0]= " + jdata[0]);
+                var temp = storage.getItem("resultrefMood");
+                console.log("temp/result ref = " + temp);
+                
+                var jtemp = JSON.parse(temp);
+                console.log("jtemp =" + jtemp);
+                var newContent = '';
         
+        //add q1
+        newContent += "<div class='quiznumber'>Q1:</div><div class='quizques'>Date: </div><div class='quizanswer'><ons-input disabled id='q1aMood' type='date'></ons-input></div><div class='break'></div>";
         
+                
+        //add q2
+        newContent += "<div class='quiznumber'>Q2:</div><div class='quizques'>Name: </div><div class='quizanswer'><ons-input id='q2aMood' disabled placeholder='Enter your full name.'></ons-input><br/><div class='break'></div></div>";
+       
+                
+        //add q3
+        newContent += "<div class='quiznumber'>Q3:</div><div class='quizques'>Diary: </div><div class='quizanswer'><textarea id='q3aMood' disabled class='textarea' placeholder='Enter your diary entry.'></textarea><br/><div class='break'></div></div>"; 
+                
+                
+        //add q4
+        newContent += "<div class='quiznumber'>Q4:</div><div class='quizques'>Gender: </div><div class='quizanswer'><ons-list-item><label class='left'><ons-radio disabled name='gender' id='0' value='0' input-id='radio-1'></ons-radio></label><label for='radio-1' class='center'>Male</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio id='1' value='1' disabled='true' name='gender' input-id='radio-2'></ons-radio></label><label for='radio-2' class='center'>Female</label></ons-list-item><ons-list-item tappable><label class='left'><ons-radio id='3' value='3' disabled='true' name='gender' input-id='radio-3'></ons-radio></label><label for='radio-3' class='center'>Depends what day it is</label></ons-list-item><div class='break'></div></div>";
+                
+        //add q5
+        newContent += "<div class='quiznumber'>Q5:</div><div class='quizques' id='q5tMood'>Mood: </div><div class='quizanswer'><ons-carousel var='q5car' id='q5aMood2' style='height: 100px; width:90%' swipeable auto-scroll overscrollable><ons-carousel-item style='background-color: #3B4C66;'><div id='q5car1Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>abc</div></ons-carousel-item><ons-carousel-item style='background-color: #49BDC3;'><div id='q5car2Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>abcon</div></ons-carousel-item><ons-carousel-item style='background-color: #FFC300;'><div id='q5car3Mood' style='text-align: center; font-size: 30px; margin-top: 30px; color: #fff;'>baconne</div></ons-carousel-item></ons-carousel></div>";
+                
+        //add q6
+        
+        newContent += "<div class='quiznumber'>Q6:</div><div class='quizques' id='q6tMood' >Happiness Today</div><div class='quizanswer'><ons-range disabled class='quizrangemood' min='0' max='10' step='1' id='q6rangeMood' style='width: 90%;' value='5'></ons-range></div>";
+                
+        //add q7
+        newContent += "<div class='quiznumber'>Q7:</div><div class='quizques' id='q7tMood' >Blood Alcohol: </div><div class='quizanswer'><ons-range disabled class='quizrangeBAC' min='0' max='0.5' step='0.01' id='q7rangeMood' onchange='updateValue()' style='width: 90%;' value='0.05'></ons-range><br/><br/><label class='quizlabel'>Level: </label><label class='quizlabel' id='labelValue'>0.05</label></div><div class='break'</div>";
+                
+                
+                var getcarous = document.getElementById('q5aMood2');
+                console.log('jdata[jtemp][4]= ' + jdata[jtemp][4]);
+                console.log('getcarous var =' + getcarous);
+
+                //finishing adding content
+                document.getElementById('addedcontent').innerHTML = newContent;
+                
+                //add users input from quiz to disabled ver.
+                $("#q1aMood").val(jdata[jtemp][0]);
+                $("#q2aMood").val(jdata[jtemp][1]);
+                $("#q3aMood").val(jdata[jtemp][2]);
+                document.getElementById(jdata[jtemp][3]).checked = true;
+                var bloop = JSON.parse(jdata[jtemp][4]);
+                console.log('bloop= ' + bloop);
+
+//                getcarous.setActiveIndex(1);
+                $("#q5aMood").val(jdata[jtemp][5]);
+                $("#q6aMood").val(jdata[jtemp][6]);
+
+
+                
+                
+                
             //if request fails
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: " + textStatus);
             });
-            
-        } 
-        
+        }
 
 
-
-    $("#maincontent").html($page);
-	$("#welcome").html('Hello, ' + displayName + '!');
-
-
-}
-
-
-/*------------------------------
-STATISTICS/RESULTS PAGE
-------------------------------*/
     function getExamAnswers() {
            // var data = JSON.stringify(_answers);
         //    alert("data to be saved " + data);
@@ -987,24 +1061,6 @@ STATISTICS/RESULTS PAGE
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: " + textStatus);
             });
-        
-         /*  //add marks to database
-            var url = baseURl + "&action=save&objectid=" + encodeURIComponent(_username) + ".marks&data=%5B%5D"
-            
-            $.ajax({
-                url: url,
-                cache: false
-            })
-
-                .done(function(data) {
-                alert("Result from server: " + data);
-
-                
-            //if request fails
-            })  .fail(function (jqXHR, textStatus) {
-                alert("Request failed: " + textStatus);
-            });
-            */
         }
 
 
@@ -1053,6 +1109,53 @@ function showDetailResults() {
 
 }
 
+
+function showDetailResultsMood() {
+    console.log("begin showDetailResultsMood");
+
+    //everything wrapped in an ons-page tag
+    //scrollable results for easy viewing
+    var $page = $("<ons-page></ons-page>");
+
+
+    //toolbar - consists of heading(center), left(logout icon button), right(logo icon)
+    var $toolbar = $("<ons-toolbar></ons-toolbar>").appendTo($page)
+    var $tbcenter = $("<div class='center'></div>").appendTo($toolbar);
+    $("<span class='menu'>Results</span>").appendTo($tbcenter);
+    var $tbright = $("<div class='right'></div>").appendTo($toolbar);
+    var $tbleft = $("<div class='left'></div>").appendTo($toolbar);
+    //logout button to show alert
+    var $tbbutton = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbleft).on("click",         function() {
+        $alertLogout.appendTo($page);
+        $alertLogout.show();
+    });;
+    //menu button to show alert
+    var $tbbutton2 = $("<ons-toolbar-button></ons-toolbar-button>").appendTo($tbright).on("click",         function() {
+        showMenu();
+    });;
+    //icons for toolbar
+    $("<ons-icon icon='home'></ons-icon>").appendTo($tbbutton2);
+    $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
+
+
+    //Text based on results
+    $("<div class='quiznumber'>Hello, Name!</div>").appendTo($page);
+    $("<div class='break'></div>").appendTo($page);
+    $("<div class='quiznumber'>Entry input:</div><div id='addedcontent'></div>").appendTo($page);
+
+
+    getMoodAnswers();
+ var getcarous = document.getElementById('q5aMood2');
+                console.log('getcarous var =' + getcarous);
+    $("<div class='break'></div><div class='break'></div><div class='break'></div>").appendTo($page);
+    $("<div class='footer'></div>").appendTo($page);
+
+
+    $("#maincontent").html($page);
+	$("#welcome").html('Hello, ' + displayName + '!');
+
+}
+
      function loadResultsMenu() {
             
             //inputs such as username
@@ -1077,7 +1180,7 @@ function showDetailResults() {
                 var newContent = '';
                 count = 1;
                     for (var i = 0; i < jdata.length; i++) {
-                    newContent += "<ons-list-item tappable id='"+i+"' class='quizlistitem'><div class='center list-item__center'><div class='list-item__title'>Mood Quiz Attempt </div><span class='list-item__title'>" + count;
+                    newContent += "<ons-list-item tappable id='"+i+"' class='quizlistitem'><div class='center list-item__center'><div class='list-item__title'>Exam Quiz Attempt </div><span class='list-item__title'>" + count;
                     newContent += "</span></div></ons-list-item>";
                     count ++; 
                     
@@ -1105,7 +1208,7 @@ function showDetailResults() {
             } else if(jdata.length == 0) {
                 newContent2 = '';
                 console.log('else; user has no results for exam quiz');
-                 newContent2 += "<ons-list-item class='quizlistitem'><div class='center list-item__center'><span class='list-item__title'>No attempts for Mood Quiz yet!</span></div></ons-list-item>";
+                 newContent2 += "<ons-list-item class='quizlistitem'><div class='center list-item__center'><span class='list-item__title'>No attempts for Exam Quiz yet!</span></div></ons-list-item>";
             console.log("adding error to log");
             document.getElementById('addedcontent').innerHTML = newContent2; }
                 
@@ -1115,7 +1218,72 @@ function showDetailResults() {
             })  .fail(function (jqXHR, textStatus) {
                 alert("Request failed: user doesnt exist" + textStatus);
             });
-        }
+        
+         
+         
+         // FOR MOOD QUIZ VER;
+                 var url = baseURl + "&action=load&objectid=" + encodeURIComponent(currentUsername) + ".answersMood";
+            
+            console.log(url);
+            
+            //this block of code is the actual request
+            $.ajax({
+                url: url,
+                cache: false
+            })
+            //function returns - data when .done and then function {} tells what u want to do with it
+			
+                .done(function(data) {
+					var jdata = JSON.parse(data);
+					console.log("all data loaded= " + jdata);
+        console.log("jdata.length= " + jdata.length);
+                if(jdata.length >= 1){
+                console.log("if; jdata length is 1 or greater");
+
+                var newContentMood = '';
+                count = 1;
+                    for (var i = 0; i < jdata.length; i++) {
+                    newContentMood += "<ons-list-item tappable id='"+i+"' class='quizlistitemMood'><div class='center list-item__center'><div class='list-item__title'>Mood Quiz Attempt </div><span class='list-item__title'>" + count;
+                    newContentMood += "</span></div></ons-list-item>";
+                    count ++; 
+                    
+                }
+        
+               console.log("adding quiz data to html"); document.getElementById('addedcontentMood').innerHTML = newContentMood;
+        
+            var d = document.getElementsByClassName("quizlistitemMood"); 
+    for (var i = 0; i < d.length; i++) {
+
+    d[i].onclick = function() {
+        var tempMood = $(this).attr('id');
+        console.log(tempMood);
+        
+        
+        
+        storage.setItem("resultrefMood" , JSON.stringify(tempMood));
+        showDetailResultsMood();
+    
+    }
+    
+    }        
+                    
+                    
+            } else if(jdata.length == 0) {
+                newContentMood2 = '';
+                console.log('else; user has no results for Mood quiz');
+                 newContentMood2 += "<ons-list-item class='quizlistitem'><div class='center list-item__center'><span class='list-item__title'>No entries for Mood Quiz yet!</span></div></ons-list-item>";
+            console.log("adding error to log");
+            document.getElementById('addedcontentMood').innerHTML = newContentMood2; }
+                
+                
+                
+            //if request fails
+            })  .fail(function (jqXHR, textStatus) {
+                alert("Request failed: user doesnt exist" + textStatus);
+            });
+
+     
+     }
 
 
 /*------------------------------
@@ -1152,14 +1320,10 @@ function showResultsMenu() {
     $("<ons-icon icon='fa-user-circle-o'></ons-icon>").appendTo($tbbutton);
 
     
-        /* perhaps layout as such
-    ajax call to data for mood; for loop length of array
-    create a list item title Mood Quiz, Subtitle attempt 1/date etc ELSE 'no attempts for mood quiz yet!' 
-    then ajax load for exam; same as above. 
-    */
-    
     //list to show the possible quiz types
     var $onsList = $("<ons-list id='addedcontent'></ons-list>").appendTo($page);
+    var $onsListMood = $("<ons-list id='addedcontentMood'></ons-list>").appendTo($page);
+
     //quiz buttons - mood + exam
     
 
@@ -1172,10 +1336,7 @@ function showResultsMenu() {
 	
 	$("#welcome").html('Hello, ' + displayName + '!');
     loadResultsMenu(); 
-    
-    
 
-    
     
 }
 
@@ -1189,6 +1350,8 @@ $(document).ready(function () {
 
  //Load login when document is ready
  showLogin();
+//showQuizMood();
+
 
 
 });
